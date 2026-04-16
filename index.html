@@ -24,7 +24,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 .card{background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.08);padding:20px}
 .card.calendar-card{flex:1;display:flex;flex-direction:column}
 .card-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:16px}
-.card-title{font-size:18px;font-weight:700;color:#1e2937}
 
 .nav-month{display:flex;align-items:center;gap:16px;font-size:20px;font-weight:700;color:#1e2937}
 .nav-btn{background:none;border:none;font-size:28px;cursor:pointer;color:#3b82f6;padding:0 8px}
@@ -39,17 +38,16 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
   border:1px solid #cbd5e0;
   border-radius:12px;
   overflow:hidden;
-  min-height:580px; /* 화면 꽉 차게 */
+  min-height:580px;
 }
 .cal-day-label{background:#f8fafc;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;color:#64748b}
 .cal-cell{
   background:#fff;
-  padding:10px;
+  padding:10px 8px;
   font-size:13px;
   display:flex;
   flex-direction:column;
   position:relative;
-  min-height:0;
   overflow:hidden;
 }
 .cal-cell.sun{color:#ef4444}
@@ -57,15 +55,18 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 .cal-cell.today{border:3px solid #facc15;background:#fefce8}
 
 .date-num{font-weight:700;font-size:15px;margin-bottom:6px}
-.events-wrap{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:3px}
+.events-wrap{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
 .event-item{
-  font-size:12.5px;
-  padding:5px 8px;
+  font-size:11px;
+  padding:5px 7px;
   border-radius:6px;
-  white-space:nowrap;
+  line-height:1.25;
+  white-space:normal;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
   overflow:hidden;
-  text-overflow:ellipsis;
-  font-weight:600;
+  cursor:default;
 }
 .ev-all{border-left:5px solid #64748b;background:#f8fafc;color:#1e2937}
 .ev-1{border-left:5px solid #3b82f6;background:#dbeafe;color:#1e40af}
@@ -154,7 +155,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 
 <script>
 // ==================== PDF 기반 초기 데이터 ====================
-const BASE_DATA = [ /* 이전과 동일하게 유지 */ 
+const BASE_DATA = [ /* (이전과 동일) */ 
   {date:"2026-03-03", title:"입학식 / 개학식 / 신입생 O.T", grade:"all"},
   {date:"2026-03-10", title:"기초학력 진단검사", grade:"all"},
   {date:"2026-03-19", title:"1학년 수업공개 및 학부모교실", grade:"1"},
@@ -229,15 +230,17 @@ const MY_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwP6EQY_ONpeJrqiE
 let DL = [];
 let currentFilter = 'all';
 let currentYear = 2026;
-let currentMonth = 2; // 3월
+let currentMonth = 2;
 
-// 날짜 정규화 함수 (시트가 풀 datetime 문자열을 보내도 자동 변환)
-function normalizeDate(dateInput) {
-  if (!dateInput) return '';
-  if (typeof dateInput === 'string' && dateInput.includes('GMT')) {
-    return new Date(dateInput).toISOString().split('T')[0];
-  }
-  return String(dateInput).trim();
+// 시트 데이터 강력 파싱 (영어키 + 한글키 모두 지원)
+function parseSheetItem(item) {
+  return {
+    date: item.마감일 || item.date || '',
+    title: item.제목 || item.title || '',
+    grade: item.grade || 'all',                    // 전학년 탭은 기본 'all'
+    manager: item.담당자 || item.manager || '',
+    note: item.비고 || item.note || ''
+  };
 }
 
 window.addEventListener('DOMContentLoaded', () => loadData(false));
@@ -254,12 +257,9 @@ async function loadData(showMsg) {
   const msg = document.getElementById('smsg');
   try {
     const res = await fetch(url);
-    let data = await res.json();
-    if (Array.isArray(data)) {
-      DL = data.map(item => ({
-        ...item,
-        date: normalizeDate(item.date)   // ← 시트 날짜 자동 변환 핵심
-      }));
+    let raw = await res.json();
+    if (Array.isArray(raw)) {
+      DL = raw.map(item => parseSheetItem(item));
     }
     renderCal();
     renderDocs();
@@ -274,7 +274,7 @@ async function loadData(showMsg) {
     renderDocs();
     if (showMsg) {
       msg.style.color = '#ef4444';
-      msg.textContent = '⚠ 시트 불러오기 실패 (PDF 데이터만 표시)';
+      msg.textContent = '⚠ 시트 불러오기 실패';
     }
   }
 }
@@ -292,12 +292,8 @@ function renderCal() {
   document.getElementById('cal-month-title').textContent = `${currentYear}년 ${monthNames[currentMonth]}`;
 
   let html = '';
-  // 요일 헤더
-  ['일','월','화','수','목','금','토'].forEach(d => {
-    html += `<div class="cal-day-label">${d}</div>`;
-  });
+  ['일','월','화','수','목','금','토'].forEach(d => html += `<div class="cal-day-label">${d}</div>`);
 
-  // 빈 칸
   for (let i = 0; i < firstDay; i++) html += `<div class="cal-cell"></div>`;
 
   for (let d = 1; d <= lastDate; d++) {
@@ -321,7 +317,8 @@ function renderCal() {
         ${dayEvents.map(ev => {
           const gradeMap = {all:'전학년',1:'1학년',2:'2학년',3:'3학년'};
           const cls = ev.grade || 'all';
-          return `<div class="event-item ev-${cls}">[${gradeMap[cls]}] ${ev.title}</div>`;
+          const fullText = `[${gradeMap[cls]}] ${ev.title}`;
+          return `<div class="event-item ev-${cls}" title="${fullText}">${fullText}</div>`;
         }).join('')}
       </div>
     </div>`;
@@ -331,7 +328,7 @@ function renderCal() {
 }
 
 function renderDocs() {
-  const docs = DL.filter(ev => ev.grade === 'all').sort((a,b) => new Date(a.date) - new Date(b.date));
+  const docs = DL.filter(ev => (ev.grade === 'all' || !ev.grade)).sort((a,b) => new Date(a.date) - new Date(b.date));
   const trains = DL.filter(ev => ev.grade === 'training').sort((a,b) => new Date(a.date) - new Date(b.date));
 
   const mapping = ev => `

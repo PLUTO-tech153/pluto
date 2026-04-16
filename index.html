@@ -57,10 +57,10 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 .date-num{font-weight:700;font-size:15px;margin-bottom:6px}
 .events-wrap{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
 .event-item{
-  font-size:11px;
+  font-size:12px;
   padding:5px 7px;
   border-radius:6px;
-  line-height:1.25;
+  line-height:1.3;
   white-space:normal;
   display:-webkit-box;
   -webkit-line-clamp:2;
@@ -155,7 +155,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 
 <script>
 // ==================== PDF 기반 초기 데이터 ====================
-const BASE_DATA = [ /* (이전과 동일) */ 
+const BASE_DATA = [
   {date:"2026-03-03", title:"입학식 / 개학식 / 신입생 O.T", grade:"all"},
   {date:"2026-03-10", title:"기초학력 진단검사", grade:"all"},
   {date:"2026-03-19", title:"1학년 수업공개 및 학부모교실", grade:"1"},
@@ -232,14 +232,22 @@ let currentFilter = 'all';
 let currentYear = 2026;
 let currentMonth = 2;
 
-// 시트 데이터 강력 파싱 (영어키 + 한글키 모두 지원)
+// 시트 날짜 형식 자동 변환 (2026.11.31 → 2026-11-31)
+function normalizeDate(dateInput) {
+  if (!dateInput) return '';
+  let str = String(dateInput).trim();
+  if (str.includes('GMT')) return new Date(str).toISOString().split('T')[0];
+  if (str.includes('.')) str = str.replace(/\./g, '-');   // 2026.11.31 → 2026-11-31
+  return str;
+}
+
+// 시트 컬럼 강력 매핑
 function parseSheetItem(item) {
   return {
-    date: item.마감일 || item.date || '',
+    date: normalizeDate(item.마감일 || item.date),
     title: item.제목 || item.title || '',
-    grade: item.grade || 'all',                    // 전학년 탭은 기본 'all'
-    manager: item.담당자 || item.manager || '',
-    note: item.비고 || item.note || ''
+    grade: item.grade || (item.연수 ? 'training' : 'all'),
+    manager: item.담당자 || item.manager || ''
   };
 }
 
@@ -272,10 +280,7 @@ async function loadData(showMsg) {
     console.error(e);
     renderCal();
     renderDocs();
-    if (showMsg) {
-      msg.style.color = '#ef4444';
-      msg.textContent = '⚠ 시트 불러오기 실패';
-    }
+    if (showMsg) msg.textContent = '⚠ 시트 불러오기 실패';
   }
 }
 
@@ -315,10 +320,8 @@ function renderCal() {
       <span class="date-num">${d}</span>
       <div class="events-wrap">
         ${dayEvents.map(ev => {
-          const gradeMap = {all:'전학년',1:'1학년',2:'2학년',3:'3학년'};
-          const cls = ev.grade || 'all';
-          const fullText = `[${gradeMap[cls]}] ${ev.title}`;
-          return `<div class="event-item ev-${cls}" title="${fullText}">${fullText}</div>`;
+          const fullText = ev.title;
+          return `<div class="event-item ev-${ev.grade || 'all'}" title="${fullText}">${fullText}</div>`;
         }).join('')}
       </div>
     </div>`;
@@ -328,27 +331,43 @@ function renderCal() {
 }
 
 function renderDocs() {
-  const docs = DL.filter(ev => (ev.grade === 'all' || !ev.grade)).sort((a,b) => new Date(a.date) - new Date(b.date));
-  const trains = DL.filter(ev => ev.grade === 'training').sort((a,b) => new Date(a.date) - new Date(b.date));
-
+  const docs = DL.filter(ev => ev.grade === 'all' || !ev.grade).sort((a,b) => new Date(a.date) - new Date(b.date));
   const mapping = ev => `
     <div class="list-item">
       <div class="li-top">
-        <span class="li-title"><span style="background:#e2e8f0;color:#334155;padding:2px 8px;border-radius:9999px;font-size:12px;font-weight:700">전학년</span> ${ev.title}</span>
+        <span class="li-title">${ev.title}</span>
       </div>
-      <div class="li-date">${ev.date ? ev.date.slice(5).replace('-','월 ') + '일' : ''}</div>
-    </div>`;
-
-  const tMapping = ev => `
-    <div class="list-item" style="border-left-color:#10b981">
-      <div class="li-top">
-        <span class="li-title"><span style="background:#d1fae5;color:#14532d;padding:2px 8px;border-radius:9999px;font-size:12px;font-weight:700">연수</span> ${ev.title}</span>
-      </div>
-      <div class="li-date">${ev.date ? ev.date.slice(5).replace('-','월 ') + '일' : ''}</div>
+      <div class="li-date">${ev.date ? ev.date.slice(5).replace('-','월 ') + '일' : ''}　|　${ev.manager || ''}</div>
     </div>`;
 
   document.getElementById('doc-list').innerHTML = docs.length ? docs.map(mapping).join('') : '<p style="padding:20px;text-align:center;color:#64748b;font-size:14px">등록된 서류가 없습니다.</p>';
-  document.getElementById('train-list').innerHTML = trains.length ? trains.map(tMapping).join('') : '<p style="padding:20px;text-align:center;color:#64748b;font-size:14px">예정된 연수가 없습니다.</p>';
+}
+
+function renderTrain() {
+  const trains = DL.filter(ev => ev.grade === 'training').sort((a,b) => new Date(a.date) - new Date(b.date));
+  const mapping = ev => `
+    <div class="list-item" style="border-left-color:#10b981">
+      <div class="li-top">
+        <span class="li-title">${ev.title}</span>
+      </div>
+      <div class="li-date">${ev.date ? ev.date.slice(5).replace('-','월 ') + '일' : ''}　|　${ev.manager || ''}</div>
+    </div>`;
+
+  document.getElementById('train-list').innerHTML = trains.length ? trains.map(mapping).join('') : '<p style="padding:20px;text-align:center;color:#64748b;font-size:14px">예정된 연수가 없습니다.</p>';
+}
+
+function renderDocs() {
+  const docs = DL.filter(ev => ev.grade === 'all' || !ev.grade).sort((a,b) => new Date(a.date) - new Date(b.date));
+  const mapping = ev => `
+    <div class="list-item">
+      <div class="li-top">
+        <span class="li-title">${ev.title}</span>
+      </div>
+      <div class="li-date">${ev.date ? ev.date.slice(5).replace('-','월 ') + '일' : ''}　|　${ev.manager || ''}</div>
+    </div>`;
+
+  document.getElementById('doc-list').innerHTML = docs.length ? docs.map(mapping).join('') : '<p style="padding:20px;text-align:center;color:#64748b;font-size:14px">등록된 서류가 없습니다.</p>';
+  renderTrain();
 }
 </script>
 </body>

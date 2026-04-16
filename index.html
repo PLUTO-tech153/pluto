@@ -6,105 +6,149 @@
 <title>포항제철중 2026 학사일정</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-/* 디자인 최적화: 빈 공간 줄이기 */
+/* ───────────────────────────── 디자인 최적화 ───────────────────────────── */
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;min-height:100vh;color:#1a1a2e;line-height:1.4}
+
+/* HEADER */
 .hdr{background:#1a2744;display:flex;align-items:center;padding:12px 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.2)}
 .hdr-left{display:flex;align-items:center;gap:15px}
-.logo-wrap{width:40px;height:40px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:3px}
+.logo-wrap{width:42px;height:42px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:3px}
 .logo-wrap img{width:100%;height:100%;object-fit:contain}
 .hdr-text h1{color:#fff;font-size:20px;font-weight:700}
-.container{max-width:1200px;margin:10px auto;padding:0 15px;display:grid;grid-template-columns:1fr 320px;gap:15px}
-.card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);padding:15px;margin-bottom:15px}
-.card-title{font-size:16px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:#2d3748}
-.card-title::before{content:'';display:inline-block;width:4px;height:16px;background:#3182ce;border-radius:2px}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e2e8f0;border:1px solid #e2e8f0}
-.cal-day-label{background:#f8fafc;font-size:11px;font-weight:700;padding:6px 0;color:#718096;text-align:center}
-.cal-cell{min-height:80px;background:#fff;padding:5px;font-size:12px;position:relative}
+
+/* LAYOUT: 달력 영역을 더 넓게 (1fr -> 1.2fr) */
+.container{max-width:1400px;margin:15px auto;padding:0 20px;display:grid;grid-template-columns:1fr 300px;gap:20px}
+
+/* 바로가기 버튼 스타일 */
+.quick-links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
+.ln-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;transition:0.2s;color:#fff}
+.ln-neis{background:#3182ce}.ln-neis:hover{background:#2b6cb0}
+.ln-ep{background:#4a5568}.ln-ep:hover{background:#2d3748}
+
+/* 카드 및 달력 크기 확대 */
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);padding:20px;margin-bottom:15px}
+.card-title{font-size:17px;font-weight:700;margin-bottom:15px;display:flex;align-items:center;gap:8px;color:#2d3748}
+.card-title::before{content:'';display:inline-block;width:4px;height:18px;background:#3182ce;border-radius:2px}
+
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#cbd5e0;border:1px solid #cbd5e0}
+.cal-day-label{background:#edf2f7;font-size:13px;font-weight:700;padding:10px 0;color:#4a5568;text-align:center}
+/* 날짜 칸 높이 확대 */
+.cal-cell{min-height:110px;background:#fff;padding:8px;font-size:13px;position:relative}
 .cal-cell.sun{color:#e53e3e;background:#fffafb}.cal-cell.sat{color:#3182ce;background:#f7faff}
-.date-num{font-weight:600;margin-bottom:3px;display:block}
-.event-item{font-size:10px;padding:2px 4px;border-radius:3px;margin-bottom:2px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.date-num{font-weight:700;margin-bottom:6px;display:block}
+
+/* 일정 표시 라벨 */
+.event-item{font-size:11px;padding:3px 6px;border-radius:4px;margin-bottom:3px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ev-all{background:#edf2f7;color:#2d3748;border-left:3px solid #718096}
 .ev-1{background:#e1effe;color:#1e429f;border-left:3px solid #3182ce}
 .ev-2{background:#def7ec;color:#03543f;border-left:3px solid #38a169}
 .ev-3{background:#fdf2f2;color:#9b1c1c;border-left:3px solid #e53e3e}
 .ev-training{background:#fef3c7;color:#92400e;border-left:3px solid #d97706}
-.list-item{padding:10px;border-radius:8px;background:#f8fafc;margin-bottom:6px;border-left:4px solid #cbd5e0}
+
+/* 리스트 아이템 */
+.list-item{padding:12px;border-radius:8px;background:#f8fafc;margin-bottom:8px;border-left:4px solid #cbd5e0}
 .list-item.all{border-left-color:#4a5568}
 .list-item.g1{border-left-color:#3182ce}
 .list-item.g2{border-left-color:#38a169}
 .list-item.g3{border-left-color:#e53e3e}
-.li-top{display:flex;justify-content:space-between;margin-bottom:2px}
-.li-title{font-weight:700;font-size:13px}
-.li-date{font-size:10px;color:#e53e3e;font-weight:700}
-.li-etc{font-size:10px;color:#718096}
+.li-top{display:flex;justify-content:space-between;margin-bottom:4px}
+.li-title{font-weight:700;font-size:14px}
+.li-date{font-size:11px;color:#e53e3e;font-weight:700}
+.li-etc{font-size:11px;color:#718096}
+
 .settings{position:fixed;bottom:15px;right:15px;z-index:1000}
-.settings-btn{width:35px;height:35px;background:#1a2744;color:#fff;border-radius:50%;border:none;cursor:pointer;opacity:0.4;transition:0.3s}
+.settings-btn{width:35px;height:35px;background:#1a2744;color:#fff;border-radius:50%;border:none;cursor:pointer;opacity:0.3;transition:0.3s}
 .settings-btn:hover{opacity:1}
 .settings-panel{position:absolute;bottom:45px;right:0;width:260px;background:#fff;border-radius:12px;padding:15px;box-shadow:0 5px 20px rgba(0,0,0,0.2);display:none}
 .settings-panel.active{display:block}
-@media(max-width:850px){ .container{grid-template-columns:1fr} }
+
+@media(max-width:950px){ .container{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
+
 <header class="hdr">
   <div class="hdr-left">
     <div class="logo-wrap"><img src="logo.png.JPG" alt="로고"></div>
     <div class="hdr-text"><h1>포항제철중학교 2026학년도 학사일정</h1></div>
   </div>
 </header>
+
 <div class="container">
   <div class="main-content">
     <div class="card">
-      <div class="card-title" id="cal-month-title">4월 학사일정</div>
+      <div class="card-title" id="cal-month-title">2026년 4월</div>
       <div class="cal-grid" id="calendar"></div>
     </div>
   </div>
+
   <div class="side-content">
-    <div class="card"><div class="card-title">중요 서류 마감</div><div id="doc-list"></div></div>
-    <div class="card"><div class="card-title">교사 연수/행사</div><div id="train-list"></div></div>
+    <div class="quick-links">
+      <a href="https://gbe.eduptl.kr/bpm_lgn_lg00_001.do" target="_blank" class="ln-btn ln-neis">나이스 바로가기</a>
+      <a href="http://swpsso.posco.net/idms/U61/jsp/login/login.jsp" target="_blank" class="ln-btn ln-ep">EP 바로가기</a>
+    </div>
+
+    <div class="card">
+      <div class="card-title">중요 서류 마감</div>
+      <div id="doc-list"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">교사 연수/행사</div>
+      <div id="train-list"></div>
+    </div>
   </div>
 </div>
+
 <div class="settings">
   <button class="settings-btn" onclick="document.querySelector('.settings-panel').classList.toggle('active')">⚙</button>
   <div class="settings-panel">
-    <p style="font-size:11px; margin-bottom:8px; font-weight:700">연동 URL</p>
+    <p style="font-size:11px; margin-bottom:8px; font-weight:700">구글 시트 연동</p>
     <input type="text" id="api-url" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px; font-size:11px; margin-bottom:10px">
     <button onclick="loadData(true)" style="width:100%; padding:8px; background:#3182ce; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:700; font-size:11px">새로고침</button>
     <div id="smsg" style="font-size:10px; margin-top:5px; text-align:center"></div>
   </div>
 </div>
+
 <script>
-// PDF에서 추출한 기본 데이터 복구
+// PDF 기본 데이터 (달력 표시용)
 const BASE_DATA = [
-  {date:"2026-03-02", title:"입학식 및 개학식", grade:"all", manager:"교무기획부"},
-  {date:"2026-03-10", title:"기초학력 진단검사", grade:"all", manager:"교육과정부"},
-  {date:"2026-03-17", title:"맞춤형 성취도평가", grade:"all", manager:"교육과정부"},
-  {date:"2026-04-02", title:"대체 공휴일", grade:"all", manager:"휴업일"},
-  {date:"2026-04-20", title:"1학년 체험활동", grade:"1", manager:"1학년부"},
-  {date:"2026-04-21", title:"1학년 체험활동", grade:"1", manager:"1학년부"},
-  {date:"2026-04-27", title:"1차 정기고사(2,3학년)", grade:"3", manager:"교육과정부"},
-  {date:"2026-04-28", title:"1차 정기고사(2,3학년)", grade:"3", manager:"교육과정부"},
-  {date:"2026-05-04", title:"재량휴업일", grade:"all", manager:"휴업일"},
-  {date:"2026-05-05", title:"어린이날", grade:"all", manager:"휴업일"}
+  {date:"2026-03-02", title:"입학식 및 개학식", grade:"all", manager:"교무기획부", isBase:true},
+  {date:"2026-03-10", title:"기초학력 진단검사", grade:"all", manager:"교육과정부", isBase:true},
+  {date:"2026-03-17", title:"맞춤형 성취도평가", grade:"all", manager:"교육과정부", isBase:true},
+  {date:"2026-04-02", title:"대체 공휴일", grade:"all", manager:"휴업일", isBase:true},
+  {date:"2026-04-20", title:"1학년 체험활동", grade:"1", manager:"1학년부", isBase:true},
+  {date:"2026-04-21", title:"1학년 체험활동", grade:"1", manager:"1학년부", isBase:true},
+  {date:"2026-04-27", title:"1차 정기고사(2,3학년)", grade:"3", manager:"교육과정부", isBase:true},
+  {date:"2026-04-28", title:"1차 정기고사(2,3학년)", grade:"3", manager:"교육과정부", isBase:true},
+  {date:"2026-05-04", title:"재량휴업일", grade:"all", manager:"휴업일", isBase:true},
+  {date:"2026-05-05", title:"어린이날", grade:"all", manager:"휴업일", isBase:true}
 ];
+
 const MY_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzcsOvmG5Pm191qeC_j1qQ2GV4Uuc5HYDvM5kdEC_HnqoJrx_HWVGV3PUaJZNrzretk/exec";
 let DL = [...BASE_DATA];
+
 window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('api-url').value = MY_SCRIPT_URL;
     loadData(false);
 });
+
 async function loadData(showMsg) {
   const url = document.getElementById('api-url').value.trim();
   const msg = document.getElementById('smsg');
   try {
     const response = await fetch(url);
     const newData = await response.json();
-    if(Array.isArray(newData) && newData.length > 0) { DL = [...BASE_DATA, ...newData]; }
+    if(Array.isArray(newData)) {
+      // 시트 데이터에 마킹을 해서 구분합니다.
+      const markedNewData = newData.map(item => ({...item, isBase: false}));
+      DL = [...BASE_DATA, ...markedNewData];
+    }
     renderCal(); renderDocs();
-    if(showMsg) msg.textContent = "✓ 반영 완료";
+    if(showMsg) msg.textContent = "✓ 업데이트 완료";
   } catch(e) { renderCal(); renderDocs(); }
 }
+
 function renderCal() {
   const container = document.getElementById('calendar');
   const year = 2026, month = 3; // 4월
@@ -121,12 +165,18 @@ function renderCal() {
   }
   container.innerHTML = html;
 }
+
 function renderDocs() {
-  const docs = DL.filter(ev => ev.grade !== 'training').sort((a,b)=>new Date(a.date)-new Date(b.date));
-  const trains = DL.filter(ev => ev.grade === 'training');
-  const mapping = ev => `<div class="list-item ${ev.grade==='all'?'all':'g'+ev.grade}"><div class="li-top"><span class="li-title">${ev.title}</span><span class="li-date">${ev.date.slice(5)}</span></div><div class="li-etc">${ev.manager}</div></div>`;
-  document.getElementById('doc-list').innerHTML = docs.length ? docs.map(mapping).join('') : '일정 없음';
-  document.getElementById('train-list').innerHTML = trains.length ? trains.map(mapping).join('') : '예정된 행사 없음';
+  // ★ 중요 수정: isBase가 false인(시트에서 온) 데이터만 리스트에 표시
+  const listItems = DL.filter(ev => !ev.isBase);
+  
+  const docs = listItems.filter(ev => ev.grade !== 'training').sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const trains = listItems.filter(ev => ev.grade === 'training');
+  
+  const mapping = ev => `<div class="list-item ${ev.grade==='all'?'all':'g'+ev.grade}"><div class="li-top"><span class="li-title">${ev.title}</span><span class="li-date">${ev.date.slice(5)}</span></div><div class="li-etc">${ev.manager || ''} ${ev.note ? '| '+ev.note : ''}</div></div>`;
+  
+  document.getElementById('doc-list').innerHTML = docs.length ? docs.map(mapping).join('') : '<p style="text-align:center; font-size:12px; color:#a0aec0; padding:10px;">시트에 등록된 서류 일정이 없습니다.</p>';
+  document.getElementById('train-list').innerHTML = trains.length ? trains.map(mapping).join('') : '<p style="text-align:center; font-size:12px; color:#a0aec0; padding:10px;">시트에 등록된 연수 일정이 없습니다.</p>';
 }
 </script>
 </body>

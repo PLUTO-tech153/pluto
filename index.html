@@ -8,60 +8,91 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line-height:1.4}
-.hdr{background:#1a2744;display:flex;align-items:center;padding:12px 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.2)}
-.hdr-left{display:flex;align-items:center;gap:15px}
-.logo-wrap{width:42px;height:42px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:3px}
+.hdr{background:#0f172a;display:flex;align-items:center;padding:14px 24px;position:sticky;top:0;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.hdr-left{display:flex;align-items:center;gap:12px}
+.logo-wrap{width:40px;height:40px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .logo-wrap img{width:100%;height:100%;object-fit:contain}
-.hdr-text h1{color:#fff;font-size:20px;font-weight:700}
+.hdr-text h1{color:#fff;font-size:21px;font-weight:700}
 
-.container{max-width:1400px;margin:15px auto;padding:0 20px;display:grid;grid-template-columns:1fr 340px;gap:20px;}
-.main-content{display:flex; flex-direction:column; min-height: calc(100vh - 100px);}
+.container{max-width:1480px;margin:20px auto;padding:0 20px;display:grid;grid-template-columns:1fr 360px;gap:24px}
+.main-content{display:flex;flex-direction:column;min-height:calc(100vh - 100px)}
 
-.quick-links{display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin-bottom:15px}
-.ln-btn{display:flex;align-items:center;justify-content:center;padding:10px 5px;border-radius:8px;text-decoration:none;font-weight:700;font-size:12px;color:#fff;transition:0.2s;text-align:center}
-.ln-neis{background:#3182ce} .ln-ep{background:#4a5568} .ln-sheet{background:#38a169}
+.quick-links{display:flex;gap:8px;margin-bottom:20px}
+.ln-btn{flex:1;display:flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;color:#fff;transition:0.2s}
+.ln-neis{background:#3b82f6} .ln-ep{background:#475569} .ln-sheet{background:#10b981}
 
-.card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);padding:18px;margin-bottom:15px}
-.card.calendar-card{flex:1; display:flex; flex-direction:column; margin-bottom:0;}
-.card-header{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:15px;}
-.card-title{font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px;color:#2d3748}
-.card-title::before{content:'';display:inline-block;width:4px;height:18px;background:#3182ce;border-radius:2px}
+.card{background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.08);padding:20px}
+.card.calendar-card{flex:1;display:flex;flex-direction:column}
+.card-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:16px}
+.card-title{font-size:18px;font-weight:700;color:#1e2937}
 
-.cal-grid{display:flex; flex-direction:column; background:#cbd5e0; border:1px solid #cbd5e0; flex:1; border-radius:4px; overflow:hidden;}
-.cal-row{display:grid; grid-template-columns:repeat(7,1fr); gap:1px;}
-.cal-day-label{background:#edf2f7;font-size:13px;font-weight:700;padding:10px 0;text-align:center;color:#4a5568}
-.cal-cell{background:#fff;padding:8px;font-size:13px;position:relative; display:flex; flex-direction:column; min-height:100px;}
-.cal-cell.sun{color:#e53e3e} .cal-cell.sat{color:#3182ce}
-.cal-cell.today{background:#fff9c4; border:2px solid #fbc02d;}
-.date-num{font-weight:700;margin-bottom:6px;display:block}
+.nav-month{display:flex;align-items:center;gap:16px;font-size:20px;font-weight:700;color:#1e2937}
+.nav-btn{background:none;border:none;font-size:28px;cursor:pointer;color:#3b82f6;padding:0 8px}
 
-.events-wrap{flex:1; overflow-y:auto; max-height:78px;}
-.event-item{font-size:11px;padding:4px 6px;border-radius:4px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
-.ev-all{border-left:3px solid #718096; background:#f7fafc; color:#2d3748}
-.ev-1{border-left:3px solid #3182ce; background:#ebf8ff; color:#1e429f}
-.ev-2{border-left:3px solid #38a169; background:#f0fff4; color:#03543f}
-.ev-3{border-left:3px solid #e53e3e; background:#fff5f5; color:#9b1c1c}
-.ev-training{border-left:3px solid #d97706; background:#fef3c7; color:#92400e}
+.cal-grid{
+  flex:1;
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  grid-template-rows:50px repeat(6,1fr);
+  gap:1px;
+  background:#cbd5e0;
+  border:1px solid #cbd5e0;
+  border-radius:12px;
+  overflow:hidden;
+  min-height:580px; /* 화면 꽉 차게 */
+}
+.cal-day-label{background:#f8fafc;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;color:#64748b}
+.cal-cell{
+  background:#fff;
+  padding:10px;
+  font-size:13px;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  min-height:0;
+  overflow:hidden;
+}
+.cal-cell.sun{color:#ef4444}
+.cal-cell.sat{color:#3b82f6}
+.cal-cell.today{border:3px solid #facc15;background:#fefce8}
 
-.list-item{padding:12px;border-radius:8px;background:#f8fafc;margin-bottom:8px;border-left:4px solid #cbd5e0}
+.date-num{font-weight:700;font-size:15px;margin-bottom:6px}
+.events-wrap{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:3px}
+.event-item{
+  font-size:12.5px;
+  padding:5px 8px;
+  border-radius:6px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  font-weight:600;
+}
+.ev-all{border-left:5px solid #64748b;background:#f8fafc;color:#1e2937}
+.ev-1{border-left:5px solid #3b82f6;background:#dbeafe;color:#1e40af}
+.ev-2{border-left:5px solid #10b981;background:#d1fae5;color:#14532d}
+.ev-3{border-left:5px solid #ef4444;background:#fee2e2;color:#991b1b}
+
+.filter-tabs{display:flex;gap:6px;background:#f1f5f9;padding:4px;border-radius:9999px}
+.ft-btn{padding:8px 20px;border-radius:9999px;font-size:14px;font-weight:600;cursor:pointer;transition:0.2s;border:none}
+.ft-btn.active{background:#3b82f6;color:#fff}
+
+.list-item{
+  padding:14px;
+  border-radius:12px;
+  background:#f8fafc;
+  margin-bottom:10px;
+  border-left:5px solid #64748b;
+}
 .li-top{display:flex;justify-content:space-between;align-items:center}
-.li-title{font-weight:700;font-size:14px;display:flex;align-items:center}
-.li-date{font-size:11px;color:#e53e3e;font-weight:700;white-space:nowrap;margin-left:10px}
-.li-etc{font-size:11px;color:#718096;margin-top:6px}
+.li-title{font-weight:700;font-size:15px}
+.li-date{font-size:13px;color:#64748b;font-weight:500}
 
-.filter-tabs{display:flex;gap:6px;overflow-x:auto;}
-.ft-btn{padding:6px 14px;border:1px solid #e2e8f0;background:#fff;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;color:#4a5568;transition:0.2s}
-.ft-btn.active{background:#3182ce;color:#fff;border-color:#3182ce}
-
-.nav-month {display:flex; align-items:center; gap:12px; font-size:18px; font-weight:700;}
-.nav-btn {background:none; border:none; font-size:20px; cursor:pointer; padding:4px 10px; color:#3182ce;}
-
-.settings{position:fixed;bottom:15px;right:15px;z-index:1000}
-.settings-btn{width:35px;height:35px;background:#1a2744;color:#fff;border-radius:50%;border:none;cursor:pointer;opacity:0.3}
-.settings-panel{position:absolute;bottom:45px;right:0;width:260px;background:#fff;border-radius:12px;padding:15px;box-shadow:0 5px 20px rgba(0,0,0,0.2);display:none}
+.settings{position:fixed;bottom:20px;right:20px;z-index:1000}
+.settings-btn{width:48px;height:48px;background:#0f172a;color:#fff;border-radius:50%;border:none;cursor:pointer;font-size:22px;box-shadow:0 4px 15px rgba(0,0,0,.2)}
+.settings-panel{position:absolute;bottom:60px;right:0;width:280px;background:#fff;border-radius:16px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.2);display:none}
 .settings-panel.active{display:block}
 
-@media(max-width:950px){ .container{grid-template-columns:1fr} }
+@media(max-width:1024px){.container{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -77,16 +108,16 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
   <div class="main-content">
     <div class="card calendar-card">
       <div class="card-header">
-        <div style="display:flex; align-items:center; gap:15px;">
+        <div class="nav-month">
           <button class="nav-btn" onclick="prevMonth()">‹</button>
-          <div class="nav-month" id="cal-month-title">2026년 3월</div>
+          <span id="cal-month-title">2026년 3월</span>
           <button class="nav-btn" onclick="nextMonth()">›</button>
         </div>
         <div class="filter-tabs">
-          <button class="ft-btn active" onclick="setFilter('all', this)">전학년</button>
-          <button class="ft-btn" onclick="setFilter('1', this)">1학년</button>
-          <button class="ft-btn" onclick="setFilter('2', this)">2학년</button>
-          <button class="ft-btn" onclick="setFilter('3', this)">3학년</button>
+          <button class="ft-btn active" onclick="setFilter('all',this)">전학년</button>
+          <button class="ft-btn" onclick="setFilter('1',this)">1학년</button>
+          <button class="ft-btn" onclick="setFilter('2',this)">2학년</button>
+          <button class="ft-btn" onclick="setFilter('3',this)">3학년</button>
         </div>
       </div>
       <div class="cal-grid" id="calendar"></div>
@@ -100,7 +131,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
       <a href="https://docs.google.com/spreadsheets/d/11liSSsybAtr2fIKQi6B6lBEQEIRaGVj5qQ-L3HmWq9k/edit" target="_blank" class="ln-btn ln-sheet">관리시트</a>
     </div>
 
-    <div class="card" style="flex: 1; overflow-y: auto;">
+    <div class="card">
       <div class="card-title">중요 서류 마감 (전학년)</div>
       <div id="doc-list"></div>
     </div>
@@ -115,15 +146,15 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 <div class="settings">
   <button class="settings-btn" onclick="document.querySelector('.settings-panel').classList.toggle('active')">⚙</button>
   <div class="settings-panel">
-    <input type="text" id="api-url" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px; font-size:11px; margin-bottom:10px" value="https://script.google.com/macros/s/AKfycbwP6EQY_ONpeJrqiEgLo5hFszIRy4QnrD9OR4k0yuusfxvJApY-RSxFWw9kwjQId9er/exec">
-    <button onclick="loadData(true)" style="width:100%; padding:8px; background:#3182ce; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:700; font-size:11px">새로고침</button>
-    <div id="smsg" style="font-size:10px; margin-top:5px; text-align:center"></div>
+    <input type="text" id="api-url" value="https://script.google.com/macros/s/AKfycbwP6EQY_ONpeJrqiEgLo5hFszIRy4QnrD9OR4k0yuusfxvJApY-RSxFWw9kwjQId9er/exec" style="width:100%;padding:10px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px">
+    <button onclick="loadData(true)" style="width:100%;margin-top:12px;padding:12px;background:#3b82f6;color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer">새로고침</button>
+    <div id="smsg" style="margin-top:8px;text-align:center;font-size:13px"></div>
   </div>
 </div>
 
 <script>
-// ==================== PDF 기반 초기 학사일정 (전체 학년도) ====================
-const BASE_DATA = [
+// ==================== PDF 기반 초기 데이터 ====================
+const BASE_DATA = [ /* 이전과 동일하게 유지 */ 
   {date:"2026-03-03", title:"입학식 / 개학식 / 신입생 O.T", grade:"all"},
   {date:"2026-03-10", title:"기초학력 진단검사", grade:"all"},
   {date:"2026-03-19", title:"1학년 수업공개 및 학부모교실", grade:"1"},
@@ -133,7 +164,7 @@ const BASE_DATA = [
   {date:"2026-04-02", title:"대체 공휴일", grade:"all"},
   {date:"2026-04-20", title:"1학년 수련활동 (1남)", grade:"1"},
   {date:"2026-04-21", title:"1학년 수련활동 (1남)", grade:"1"},
-  {date:"2026-04-22", title:"1학년 수련활동 (1남/1여)", grade:"1"},
+  {date:"2026-04-22", title:"1학년 수련활동", grade:"1"},
   {date:"2026-04-23", title:"1학년 수련활동 (1여)", grade:"1"},
   {date:"2026-04-24", title:"1학년 수련활동 (1여)", grade:"1"},
   {date:"2026-04-27", title:"1차 정기시험", grade:"2"},
@@ -183,10 +214,10 @@ const BASE_DATA = [
   {date:"2026-11-11", title:"2차 정기시험", grade:"3"},
   {date:"2026-11-19", title:"재량휴업일 (수능)", grade:"all"},
   {date:"2026-12-07", title:"2차 정기시험", grade:"1"},
-  {date:"2026-12-07", title:"2차 정기시험", grade:"2"},
   {date:"2026-12-08", title:"2차 정기시험", grade:"1"},
-  {date:"2026-12-08", title:"2차 정기시험", grade:"2"},
   {date:"2026-12-09", title:"2차 정기시험", grade:"1"},
+  {date:"2026-12-07", title:"2차 정기시험", grade:"2"},
+  {date:"2026-12-08", title:"2차 정기시험", grade:"2"},
   {date:"2026-12-09", title:"2차 정기시험", grade:"2"},
   {date:"2026-12-24", title:"방학식", grade:"all"},
   {date:"2026-12-25", title:"성탄절", grade:"all"},
@@ -195,14 +226,21 @@ const BASE_DATA = [
 ];
 
 const MY_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwP6EQY_ONpeJrqiEgLo5hFszIRy4QnrD9OR4k0yuusfxvJApY-RSxFWw9kwjQId9er/exec";
-let DL = []; 
+let DL = [];
 let currentFilter = 'all';
 let currentYear = 2026;
-let currentMonth = 2; // 3월부터 시작 (학교 학사 시작월)
+let currentMonth = 2; // 3월
 
-window.addEventListener('DOMContentLoaded', () => {
-  loadData(false);
-});
+// 날짜 정규화 함수 (시트가 풀 datetime 문자열을 보내도 자동 변환)
+function normalizeDate(dateInput) {
+  if (!dateInput) return '';
+  if (typeof dateInput === 'string' && dateInput.includes('GMT')) {
+    return new Date(dateInput).toISOString().split('T')[0];
+  }
+  return String(dateInput).trim();
+}
+
+window.addEventListener('DOMContentLoaded', () => loadData(false));
 
 function setFilter(f, btn) {
   currentFilter = f;
@@ -216,39 +254,33 @@ async function loadData(showMsg) {
   const msg = document.getElementById('smsg');
   try {
     const res = await fetch(url);
-    const data = await res.json();
-    if(Array.isArray(data)) {
-      DL = data;
+    let data = await res.json();
+    if (Array.isArray(data)) {
+      DL = data.map(item => ({
+        ...item,
+        date: normalizeDate(item.date)   // ← 시트 날짜 자동 변환 핵심
+      }));
     }
-    renderCal(); 
+    renderCal();
     renderDocs();
-    if(showMsg) { 
-      msg.style.color = '#38a169'; 
-      msg.textContent = "✓ 업데이트 완료"; 
-      setTimeout(() => msg.textContent = '', 3000);
+    if (showMsg) {
+      msg.style.color = '#10b981';
+      msg.textContent = '✓ 시트 업데이트 완료';
+      setTimeout(() => msg.textContent = '', 2500);
     }
-  } catch(e) { 
+  } catch(e) {
     console.error(e);
-    renderCal(); 
+    renderCal();
     renderDocs();
-    if(showMsg) { 
-      msg.style.color = '#e53e3e'; 
-      msg.textContent = "⚠ 시트 불러오기 실패 (초기값만 표시)"; 
+    if (showMsg) {
+      msg.style.color = '#ef4444';
+      msg.textContent = '⚠ 시트 불러오기 실패 (PDF 데이터만 표시)';
     }
   }
 }
 
-function prevMonth() {
-  currentMonth--;
-  if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-  renderCal();
-}
-
-function nextMonth() {
-  currentMonth++;
-  if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-  renderCal();
-}
+function prevMonth() { currentMonth--; if (currentMonth < 0) { currentMonth = 11; currentYear--; } renderCal(); }
+function nextMonth() { currentMonth++; if (currentMonth > 11) { currentMonth = 0; currentYear++; } renderCal(); }
 
 function renderCal() {
   const container = document.getElementById('calendar');
@@ -259,61 +291,40 @@ function renderCal() {
   const monthNames = ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"];
   document.getElementById('cal-month-title').textContent = `${currentYear}년 ${monthNames[currentMonth]}`;
 
-  let html = '<div class="cal-row labels">';
-  ['일','월','화','수','목','금','토'].forEach(d => html += `<div class="cal-day-label">${d}</div>`);
-  html += '</div>';
+  let html = '';
+  // 요일 헤더
+  ['일','월','화','수','목','금','토'].forEach(d => {
+    html += `<div class="cal-day-label">${d}</div>`;
+  });
 
-  let currentWeekHtml = '<div class="cal-row weeks">';
-  let dayCount = 0;
+  // 빈 칸
+  for (let i = 0; i < firstDay; i++) html += `<div class="cal-cell"></div>`;
 
-  for(let i = 0; i < firstDay; i++) {
-    currentWeekHtml += '<div class="cal-cell"></div>';
-    dayCount++;
-  }
-  
-  for(let d = 1; d <= lastDate; d++) {
+  for (let d = 1; d <= lastDate; d++) {
     const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isToday = (dateStr === todayStr) ? 'today' : '';
+    const isToday = dateStr === todayStr ? 'today' : '';
     const dayOfWeek = new Date(currentYear, currentMonth, d).getDay();
     const dayClass = dayOfWeek === 0 ? 'sun' : (dayOfWeek === 6 ? 'sat' : '');
 
-    // PDF 초기값 + 시트 데이터 병합
     let dayEvents = [
       ...BASE_DATA.filter(ev => ev.date === dateStr),
       ...DL.filter(ev => ev.date === dateStr)
     ];
 
-    // 필터 적용
     if (currentFilter !== 'all') {
       dayEvents = dayEvents.filter(ev => ev.grade === currentFilter || ev.grade === 'all');
     }
 
-    currentWeekHtml += `<div class="cal-cell ${dayClass} ${isToday}">
+    html += `<div class="cal-cell ${dayClass} ${isToday}">
       <span class="date-num">${d}</span>
       <div class="events-wrap">
-      ${dayEvents.map(ev => {
-        const gradeMap = {'all':'전학년','1':'1학년','2':'2학년','3':'3학년'};
-        const gradeClass = ev.grade || 'all';
-        return `<div class="event-item ev-${gradeClass}">[${gradeMap[gradeClass]}] ${ev.title}</div>`;
-      }).join('')}
+        ${dayEvents.map(ev => {
+          const gradeMap = {all:'전학년',1:'1학년',2:'2학년',3:'3학년'};
+          const cls = ev.grade || 'all';
+          return `<div class="event-item ev-${cls}">[${gradeMap[cls]}] ${ev.title}</div>`;
+        }).join('')}
       </div>
     </div>`;
-    
-    dayCount++;
-    if(dayCount % 7 === 0) {
-      currentWeekHtml += '</div>';
-      html += currentWeekHtml;
-      currentWeekHtml = (d < lastDate) ? '<div class="cal-row weeks">' : '';
-    }
-  }
-
-  while(dayCount % 7 !== 0) {
-    currentWeekHtml += '<div class="cal-cell"></div>';
-    dayCount++;
-  }
-  if (currentWeekHtml) {
-    currentWeekHtml += '</div>';
-    html += currentWeekHtml;
   }
 
   container.innerHTML = html;
@@ -322,27 +333,25 @@ function renderCal() {
 function renderDocs() {
   const docs = DL.filter(ev => ev.grade === 'all').sort((a,b) => new Date(a.date) - new Date(b.date));
   const trains = DL.filter(ev => ev.grade === 'training').sort((a,b) => new Date(a.date) - new Date(b.date));
-  
+
   const mapping = ev => `
-    <div class="list-item" style="border-left-color:#4a5568">
+    <div class="list-item">
       <div class="li-top">
-        <span class="li-title"><span class="badge b-all">전학년</span>${ev.title}</span>
-        <span class="li-date">${ev.date ? ev.date.slice(5) : ''} 마감</span>
+        <span class="li-title"><span style="background:#e2e8f0;color:#334155;padding:2px 8px;border-radius:9999px;font-size:12px;font-weight:700">전학년</span> ${ev.title}</span>
       </div>
-      <div class="li-etc">${ev.manager || ''}</div>
+      <div class="li-date">${ev.date ? ev.date.slice(5).replace('-','월 ') + '일' : ''}</div>
     </div>`;
 
   const tMapping = ev => `
-    <div class="list-item" style="border-left-color:#d97706">
+    <div class="list-item" style="border-left-color:#10b981">
       <div class="li-top">
-        <span class="li-title"><span class="badge b-training">연수</span>${ev.title}</span>
-        <span class="li-date">${ev.date ? ev.date.slice(5) : ''} 예정</span>
+        <span class="li-title"><span style="background:#d1fae5;color:#14532d;padding:2px 8px;border-radius:9999px;font-size:12px;font-weight:700">연수</span> ${ev.title}</span>
       </div>
-      <div class="li-etc">${ev.manager || ''}</div>
+      <div class="li-date">${ev.date ? ev.date.slice(5).replace('-','월 ') + '일' : ''}</div>
     </div>`;
 
-  document.getElementById('doc-list').innerHTML = docs.length ? docs.map(mapping).join('') : '<p style="padding:15px; font-size:12px; color:#999; text-align:center">등록된 서류 마감이 없습니다.</p>';
-  document.getElementById('train-list').innerHTML = trains.length ? trains.map(tMapping).join('') : '<p style="padding:15px; font-size:12px; color:#999; text-align:center">예정된 연수가 없습니다.</p>';
+  document.getElementById('doc-list').innerHTML = docs.length ? docs.map(mapping).join('') : '<p style="padding:20px;text-align:center;color:#64748b;font-size:14px">등록된 서류가 없습니다.</p>';
+  document.getElementById('train-list').innerHTML = trains.length ? trains.map(tMapping).join('') : '<p style="padding:20px;text-align:center;color:#64748b;font-size:14px">예정된 연수가 없습니다.</p>';
 }
 </script>
 </body>

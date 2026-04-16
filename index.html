@@ -38,7 +38,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 .events-wrap{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
 .event-item{font-size:12px;padding:5px 7px;border-radius:6px;line-height:1.3;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:default;font-weight:600}
 
-/* ★★★ 색상 완전 일치 (테두리 + 글씨) ★★★ */
+/* 색상 완전 일치 */
 .ev-all {border-left:5px solid #f59e0b; background:#fffbeb; color:#b45309}   /* 전학년 = 주황 */
 .ev-1  {border-left:5px solid #ef4444; background:#fee2e2; color:#991b1b}   /* 1학년 = 빨강 */
 .ev-2  {border-left:5px solid #10b981; background:#d1fae5; color:#14532d}   /* 2학년 = 초록 */
@@ -46,7 +46,11 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 
 .filter-tabs{display:flex;gap:6px;background:#f1f5f9;padding:4px;border-radius:9999px}
 .ft-btn{padding:8px 20px;border-radius:9999px;font-size:14px;font-weight:600;cursor:pointer;transition:0.2s;border:none}
-.ft-btn.active{background:#3b82f6;color:#fff}
+.ft-btn.all {background:#fffbeb; color:#b45309}
+.ft-btn.one {background:#fee2e2; color:#991b1b}
+.ft-btn.two {background:#d1fae5; color:#14532d}
+.ft-btn.three {background:#dbeafe; color:#1e40af}
+.ft-btn.active {color:#fff; box-shadow:0 2px 6px rgba(0,0,0,.2)}
 
 .list-item{padding:14px;border-radius:12px;background:#f8fafc;margin-bottom:10px;border-left:5px solid #64748b}
 .li-top{display:flex;justify-content:space-between;align-items:center}
@@ -79,10 +83,10 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
           <button class="nav-btn" onclick="nextMonth()">›</button>
         </div>
         <div class="filter-tabs">
-          <button class="ft-btn active" onclick="setFilter('all',this)">전학년</button>
-          <button class="ft-btn" onclick="setFilter('1',this)">1학년</button>
-          <button class="ft-btn" onclick="setFilter('2',this)">2학년</button>
-          <button class="ft-btn" onclick="setFilter('3',this)">3학년</button>
+          <button class="ft-btn all active" onclick="setFilter('all',this)">전학년</button>
+          <button class="ft-btn one" onclick="setFilter('1',this)">1학년</button>
+          <button class="ft-btn two" onclick="setFilter('2',this)">2학년</button>
+          <button class="ft-btn three" onclick="setFilter('3',this)">3학년</button>
         </div>
       </div>
       <div class="cal-grid" id="calendar"></div>
@@ -119,7 +123,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 
 <script>
 // ==================== PDF 기반 초기 데이터 ====================
-const BASE_DATA = [ /* 기존 BASE_DATA 전체 */ 
+const BASE_DATA = [ /* 기존과 동일 */ 
   {date:"2026-03-03", title:"입학식 / 개학식 / 신입생 O.T", grade:"all"},
   {date:"2026-03-10", title:"기초학력 진단검사", grade:"all"},
   {date:"2026-03-19", title:"1학년 수업공개 및 학부모교실", grade:"1"},
@@ -196,27 +200,10 @@ let currentFilter = 'all';
 let currentYear = 2026;
 let currentMonth = 2;
 
-// ==================== GAS JSON 완전 강제 파싱 (이번에 진짜 해결) ====================
 function parseSheetItem(item) {
-  let dateStr = '';
-  let titleStr = '';
+  let dateStr = item.title || '';           // GMT 문자열이 title에 들어있음
+  let titleStr = item.note || item.비고 || '';   // 실제 제목은 note에 들어있음
   let managerStr = item.manager || item.담당자 || '';
-
-  // 1. title에 GMT 날짜 문자열이 들어있는 경우 (GAS 기본 동작)
-  if (item.title && item.title.includes('GMT')) {
-    dateStr = item.title;                    // GMT 문자열에서 날짜 추출
-    titleStr = item.note || item.비고 || ''; // note에 실제 제목이 있음
-  } 
-  // 2. title에 2026.04.25 같은 형식인 경우
-  else if (item.title && /^\d{4}\./.test(item.title)) {
-    dateStr = item.title;
-    titleStr = item.note || item.비고 || item.제목 || '';
-  } 
-  // 3. 일반적인 경우
-  else {
-    dateStr = item.마감일 || item.date || item.title || '';
-    titleStr = item.제목 || item.note || item.비고 || '';
-  }
 
   // 날짜 정규화
   if (dateStr.includes('GMT')) {

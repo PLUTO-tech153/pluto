@@ -6,419 +6,166 @@
 <title>포항제철중학교 2026 학사일정</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+/* ───────────────────────────── 스타일 설정 ───────────────────────────── */
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Noto Sans KR',sans-serif;background:#eef1f6;min-height:100vh;color:#1a1a2e}
 
 /* HEADER */
 .hdr{background:#1a2744;display:flex;align-items:center;justify-content:space-between;padding:10px 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 .hdr-left{display:flex;align-items:center;gap:12px}
-.logo-wrap{width:46px;height:46px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:3px}
+
+/* 로고 박스: 흰색 배경 설정 완료 */
+.logo-wrap{width:46px;height:46px;background:#ffffff;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:4px;box-shadow: 0 2px 4px rgba(0,0,0,0.1);}
 .logo-wrap img{width:100%;height:100%;object-fit:contain}
-.hdr-text h1{color:#fff;font-size:17px;font-weight:700}
-.hdr-text p{color:rgba(255,255,255,.5);font-size:11px;margin-top:1px}
-.hdr-date{text-align:right;color:rgba(255,255,255,.75);font-size:13px}
-.hdr-date strong{display:block;color:#fff;font-size:15px;font-weight:700}
 
-/* SHORTCUTS */
-.sc-bar{background:#16233a;padding:0 24px;display:flex;align-items:center;gap:10px;height:48px;border-bottom:1px solid rgba(255,255,255,.07)}
-.sc-lbl{color:rgba(255,255,255,.4);font-size:12px;margin-right:4px}
-.sc-btn{display:flex;align-items:center;gap:8px;padding:8px 20px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.15);border-radius:8px;color:#fff;font-size:13px;font-weight:600;text-decoration:none;transition:all .15s}
-.sc-btn:hover{background:rgba(200,168,75,.35);border-color:#c8a84b}
-.sc-dot{width:9px;height:9px;border-radius:50%}
+.hdr-text h1{color:#fff;font-size:18px;font-weight:700;letter-spacing:-0.5px}
+.hdr-text p{color:#a0aec0;font-size:12px}
 
-/* MAIN */
-.main{max-width:1200px;margin:0 auto;padding:20px 18px}
+/* 레이아웃 */
+.container{max-width:1100px;margin:20px auto;padding:0 20px;display:grid;grid-template-columns:1fr 340px;gap:20px}
+.card{background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.05);padding:24px;margin-bottom:20px}
+.card-title{font-size:18px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;color:#2d3748}
+.card-title::before{content:'';display:inline-block;width:4px;height:18px;background:#3182ce;border-radius:2px}
 
-/* GRADE TABS */
-.gtabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
-.gtab{padding:9px 24px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;border:2px solid #dde1ea;background:#fff;color:#888;transition:all .13s;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.gtab:hover{background:#eef1f8}
-.gtab.active[data-g="all"]{background:#1a2744;color:#fff;border-color:#1a2744}
-.gtab.active[data-g="1"]  {background:#1d6fb5;color:#fff;border-color:#1d6fb5}
-.gtab.active[data-g="2"]  {background:#1a7a4a;color:#fff;border-color:#1a7a4a}
-.gtab.active[data-g="3"]  {background:#8b2252;color:#fff;border-color:#8b2252}
+/* 달력 */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal-day-label{font-size:12px;font-weight:700;padding:10px 0;color:#718096}
+.cal-cell{min-height:90px;background:#f8fafc;border-radius:8px;padding:6px;font-size:13px;position:relative}
+.cal-cell.today{background:#ebf8ff;box-shadow:inset 0 0 0 2px #3182ce}
+.cal-cell.sun{color:#e53e3e}.cal-cell.sat{color:#3182ce}
+.date-num{font-weight:600;margin-bottom:4px;display:block}
+.event-item{font-size:11px;padding:3px 6px;border-radius:4px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.ev-all{background:#e2e8f0;color:#1a2744}
+.ev-1{background:#bee3f8;color:#2b6cb0}
+.ev-2{background:#c6f6d5;color:#2f855a}
+.ev-3{background:#fed7e2;color:#9b2c2c}
+.ev-training{background:#feebc8;color:#c05621}
 
-/* LAYOUT */
-.layout{display:grid;grid-template-columns:1fr 320px;gap:18px}
-@media(max-width:860px){.layout{grid-template-columns:1fr}}
+/* 리스트 */
+.list-item{padding:14px;border-radius:12px;background:#f8fafc;margin-bottom:10px;border-left:5px solid #cbd5e0}
+.list-item.all{border-left-color:#1a2744}
+.list-item.g1{border-left-color:#3182ce}
+.list-item.g2{border-left-color:#38a169}
+.list-item.g3{border-left-color:#e53e3e}
+.list-item.tr{border-left-color:#ed8936}
+.li-top{display:flex;justify-content:space-between;margin-bottom:6px}
+.li-title{font-weight:700;font-size:15px;color:#2d3748}
+.li-date{font-size:12px;font-weight:700;color:#e53e3e;background:#fff5f5;padding:2px 8px;border-radius:20px}
+.li-etc{font-size:12px;color:#718096}
 
-/* CALENDAR */
-.cal-card{background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.09);overflow:hidden}
-.cal-top{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid #eee}
-.cal-month{font-size:24px;font-weight:700;color:#1a2744}
-.cal-nav{display:flex;gap:7px;align-items:center}
-.cnav{width:36px;height:36px;border-radius:8px;border:1.5px solid #ddd;background:#fff;font-size:17px;color:#555;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s}
-.cnav:hover{background:#1a2744;color:#fff;border-color:#1a2744}
-.cbtntoday{padding:7px 15px;border-radius:8px;border:1.5px solid #ddd;background:#fff;font-size:13px;font-weight:700;color:#555;cursor:pointer;font-family:inherit;transition:all .12s}
-.cbtntoday:hover{background:#1a2744;color:#fff;border-color:#1a2744}
+/* 하단 설정창 */
+.settings{position:fixed;bottom:20px;right:20px;z-index:1000}
+.settings-btn{width:44px;height:44px;background:#1a2744;color:#fff;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px}
+.settings-panel{position:absolute;bottom:55px;right:0;width:300px;background:#fff;border-radius:16px;padding:20px;box-shadow:0 10px 25px rgba(0,0,0,0.2);display:none}
+.settings-panel.active{display:block}
+.input-group label{display:block;font-size:12px;font-weight:700;margin-bottom:5px}
+.input-group input{width:100%;padding:10px;border:1px solid #e2e8f0;border-radius:8px;font-size:12px;margin-bottom:10px}
+.btn-save{width:100%;padding:10px;background:#3182ce;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer}
+.smsg{font-size:12px;margin-top:8px;text-align:center}
 
-.dow-row{display:grid;grid-template-columns:repeat(7,1fr);background:#f4f6fb;border-bottom:1px solid #e8e8e8}
-.dow{text-align:center;padding:10px 0;font-size:12px;font-weight:700;color:#999}
-.dow:first-child{color:#c0392b}.dow:last-child{color:#1d6fb5}
-
-.days-grid{display:grid;grid-template-columns:repeat(7,1fr)}
-.day{min-height:95px;padding:6px 5px;border-right:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;position:relative}
-.day:nth-child(7n){border-right:none}
-.day.other{background:#fafafa}
-.day.today{background:#edf3ff}
-.day.today::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:#1a2744}
-.dn{font-size:13px;font-weight:700;width:27px;height:27px;display:flex;align-items:center;justify-content:center;border-radius:50%;margin-bottom:3px;color:#333}
-.day.today .dn{background:#1a2744;color:#fff}
-.day.sun .dn{color:#c0392b}.day.sat .dn{color:#1d6fb5}
-.day.other .dn{color:#ccc}
-.ev{font-size:10.5px;padding:2px 5px;border-radius:3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;line-height:1.45;display:block}
-.ev.school{background:#e8f0fe;color:#1a56b0}
-.ev.exam{background:#fde8e8;color:#9b1c1c}
-.ev.holiday{background:#f0f0ec;color:#666}
-.ev.dl-all{background:#1a2744;color:#fff}
-.ev.dl-1{background:#dbeafe;color:#1e40af;font-weight:700}
-.ev.dl-2{background:#d1fae5;color:#065f46;font-weight:700}
-.ev.dl-3{background:#fce7f3;color:#831843;font-weight:700}
-.ev.training{background:#fef3c7;color:#92400e;font-weight:700}
-
-.legend{display:flex;flex-wrap:wrap;gap:10px;padding:11px 18px;border-top:1px solid #f0f0f0;background:#fafafa}
-.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:#666}
-.ldot{width:10px;height:10px;border-radius:2px}
-
-/* SIDE */
-.side{display:flex;flex-direction:column;gap:16px}
-
-.doc-card{background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.08);overflow:hidden}
-.doc-head{padding:13px 18px;background:#1a2744;color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
-.mo-pill{background:rgba(255,255,255,.15);font-size:11px;padding:3px 10px;border-radius:10px}
-.doc-item{padding:13px 15px;border-bottom:1px solid #f3f3f3;display:flex;gap:11px;align-items:flex-start;cursor:pointer;transition:background .1s}
-.doc-item:last-child{border-bottom:none}
-.doc-item:hover{background:#f5f8ff}
-.dbox{flex-shrink:0;width:46px;height:46px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;font-weight:700;line-height:1.3}
-.dbox.red{background:#fde8e8;color:#9b1c1c}
-.dbox.orange{background:#fff3e0;color:#b45309}
-.dbox.green{background:#e8f5e9;color:#1b5e20}
-.dbox.gray{background:#f0f0ec;color:#999}
-.dinfo{flex:1;min-width:0}
-.dname{font-size:13px;font-weight:600;margin-bottom:3px}
-.dname.done{color:#bbb;text-decoration:line-through;font-weight:400}
-.dsub{font-size:11px;color:#aaa}
-.gbadge{display:inline-block;font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;margin-left:5px}
-.gb-all{background:#e8ecf4;color:#1a2744}
-.gb-1{background:#dbeafe;color:#1e40af}
-.gb-2{background:#d1fae5;color:#065f46}
-.gb-3{background:#fce7f3;color:#831843}
-.gb-tr{background:#fef3c7;color:#92400e}
-.empty{padding:28px 16px;text-align:center;color:#bbb;font-size:13px;line-height:2}
-.loading{padding:24px;text-align:center;color:#aaa;font-size:13px}
-.sp{width:22px;height:22px;border:2.5px solid #ddd;border-top-color:#1a2744;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 9px}
+.loading{text-align:center;padding:40px;color:#718096}
+.sp{width:20px;height:20px;border:3px solid #e2e8f0;border-top-color:#3182ce;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 10px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* TRAINING CARD */
-.train-card{background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.08);overflow:hidden}
-.train-head{padding:13px 18px;background:#92400e;color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
-
-/* SETTING */
-.set-card{background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.08);padding:16px}
-.set-card h3{font-size:13px;font-weight:700;color:#666;margin-bottom:10px}
-.urlinp{width:100%;padding:8px 10px;border:1.5px solid #e0e0e0;border-radius:7px;font-size:11px;font-family:monospace;color:#333;background:#fafafa;outline:none}
-.urlinp:focus{border-color:#1a2744;background:#fff}
-.brow{display:flex;gap:7px;margin-top:8px}
-.btn{padding:8px 15px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;border:1.5px solid transparent;transition:all .12s}
-.bn{background:#1a2744;color:#fff}.bn:hover{background:#253660}
-.bo{background:#fff;color:#555;border-color:#ddd}.bo:hover{background:#f0f0f0}
-.smsg{font-size:11px;margin-top:6px;min-height:14px}
-.ok{color:#1a7a4a}.er{color:#c0392b}
-.guide{margin-top:12px;padding:12px;background:#f8f9fc;border-radius:8px;font-size:11px;color:#666;line-height:1.85}
-.guide b{color:#1a2744}
-
-/* MODAL */
-.mbg{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:300}
-.mbg.open{display:flex}
-.mbox{background:#fff;border-radius:16px;padding:24px;max-width:380px;width:92%;animation:pop .16s ease}
-@keyframes pop{from{transform:scale(.93);opacity:0}}
-.mbox h3{font-size:16px;font-weight:700;color:#1a2744;margin-bottom:15px}
-.mrow{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0f0f0;font-size:13px;gap:14px}
-.mrow:last-of-type{border:none}
-.mlbl{color:#aaa;font-size:12px;flex-shrink:0}
-.mval{text-align:right;font-weight:500}
-.mcls{margin-top:14px;width:100%;padding:11px;background:#f0f2f5;border:none;border-radius:9px;font-size:14px;cursor:pointer;font-family:inherit;color:#555}
-.mcls:hover{background:#e4e7ec}
+@media(max-width:850px){ .container{grid-template-columns:1fr;padding:10px} }
 </style>
 </head>
 <body>
 
-<div class="hdr">
+<header class="hdr">
   <div class="hdr-left">
     <div class="logo-wrap">
-      <img src="data:image/png;base64,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" alt="포항제철중 로고">
+      <img src="logo.png" alt="포항제철중 로고">
     </div>
     <div class="hdr-text">
-      <h1>포항제철중학교 학사일정</h1>
-      <p>2026학년도</p>
+      <h1>포항제철중학교</h1>
+      <p>2026학년도 학사일정 및 서류마감 알리미</p>
     </div>
   </div>
-  <div class="hdr-date">
-    <strong id="hd-d">—</strong>
-    <span id="hd-w">—</span>
+</header>
+
+<div class="container">
+  <div class="main-content">
+    <div class="card">
+      <div class="card-title" id="cal-month-title">학사일정</div>
+      <div class="cal-grid" id="calendar"></div>
+    </div>
+  </div>
+  <div class="side-content">
+    <div class="card"><div class="card-title">중요 서류 마감</div><div id="doc-list"></div></div>
+    <div class="card"><div class="card-title">교사 연수 일정</div><div id="train-list"></div></div>
   </div>
 </div>
 
-<div class="sc-bar">
-  <span class="sc-lbl">바로가기</span>
-  <a class="sc-btn" href="https://gbe.eduptl.kr/bpm_lgn_lg00_001.do" target="_blank">
-    <div class="sc-dot" style="background:#4a9ef5"></div>나이스 (NEIS)
-  </a>
-  <a class="sc-btn" href="http://swpsso.posco.net/idms/U61/jsp/login/login.jsp" target="_blank">
-    <div class="sc-dot" style="background:#c8a84b"></div>EP (포스코)
-  </a>
-</div>
-
-<div class="main">
-  <div class="gtabs">
-    <div class="gtab active" data-g="all" onclick="setGrade('all')">전체</div>
-    <div class="gtab" data-g="1" onclick="setGrade('1')">1학년</div>
-    <div class="gtab" data-g="2" onclick="setGrade('2')">2학년</div>
-    <div class="gtab" data-g="3" onclick="setGrade('3')">3학년</div>
-  </div>
-
-  <div class="layout">
-    <div>
-      <div class="cal-card">
-        <div class="cal-top">
-          <div class="cal-month" id="cal-title">—</div>
-          <div class="cal-nav">
-            <button class="cbtntoday" onclick="goToday()">오늘</button>
-            <button class="cnav" onclick="chM(-1)">‹</button>
-            <button class="cnav" onclick="chM(1)">›</button>
-          </div>
-        </div>
-        <div class="dow-row">
-          <div class="dow">일</div><div class="dow">월</div><div class="dow">화</div>
-          <div class="dow">수</div><div class="dow">목</div><div class="dow">금</div><div class="dow">토</div>
-        </div>
-        <div class="days-grid" id="days-grid"></div>
-        <div class="legend">
-          <div class="leg"><div class="ldot" style="background:#e8f0fe"></div>학사일정</div>
-          <div class="leg"><div class="ldot" style="background:#fde8e8"></div>시험</div>
-          <div class="leg"><div class="ldot" style="background:#1a2744"></div>전학년 서류</div>
-          <div class="leg"><div class="ldot" style="background:#dbeafe"></div>1학년</div>
-          <div class="leg"><div class="ldot" style="background:#d1fae5"></div>2학년</div>
-          <div class="leg"><div class="ldot" style="background:#fce7f3"></div>3학년</div>
-          <div class="leg"><div class="ldot" style="background:#fef3c7"></div>연수</div>
-        </div>
-      </div>
+<div class="settings">
+  <button class="settings-btn" onclick="document.querySelector('.settings-panel').classList.toggle('active')">⚙</button>
+  <div class="settings-panel">
+    <div class="input-group">
+      <label>구글 앱 스크립트 URL</label>
+      <input type="text" id="api-url">
     </div>
-
-    <div class="side">
-      <div class="doc-card">
-        <div class="doc-head">📋 이번 달 제출 서류<span class="mo-pill" id="mo-lbl">—</span></div>
-        <div id="doc-list"><div class="loading"><div class="sp"></div>불러오는 중...</div></div>
-      </div>
-
-      <div class="train-card">
-        <div class="train-head">🎓 기간 내 완료 연수<span class="mo-pill" id="train-lbl">이번 달</span></div>
-        <div id="train-list"><div class="loading"><div class="sp"></div>불러오는 중...</div></div>
-      </div>
-
-      <div class="set-card">
-        <h3>⚙ 구글 시트 연동</h3>
-        <input class="urlinp" id="api-url" type="text" placeholder="Apps Script 웹 앱 URL" />
-        <div class="brow">
-          <button class="btn bn" onclick="loadData(true)">새로고침</button>
-          <button class="btn bo" onclick="useSample()">샘플 보기</button>
-        </div>
-        <div class="smsg" id="smsg"></div>
-        <div class="guide">
-          <b>구글 시트 탭 구성</b><br>
-          탭명: <b>전학년 / 1학년 / 2학년 / 3학년 / 연수</b><br>
-          A: 제목 | B: 마감일 (YYYY-MM-DD)<br>
-          C: 담당자 | D: 비고<br><br>
-          전학년 탭은 모든 학년에 표시됩니다.
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="mbg" id="modal" onclick="closeMod(event)">
-  <div class="mbox">
-    <h3 id="mt"></h3>
-    <div id="mr"></div>
-    <button class="mcls" onclick="document.getElementById('modal').classList.remove('open')">닫기</button>
+    <button class="btn-save" onclick="loadData(true)">데이터 새로고침</button>
+    <div id="smsg" class="smsg"></div>
   </div>
 </div>
 
 <script>
-const DAYS=['일','월','화','수','목','금','토'];
-const TODAY=(()=>{const d=new Date();d.setHours(0,0,0,0);return d;})();
-let CY=TODAY.getFullYear(),CM=TODAY.getMonth(),grade='all',DL=[];
+// ★ 선생님의 주소가 반영되었습니다 ★
+const MY_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzcsOvmG5Pm191qeC_j1qQ2GV4Uuc5HYDvM5kdEC_HnqoJrx_HWVGV3PUaJZNrzretk/exec";
 
-// ── Apps Script URL 저장/불러오기 ──────────────────────────
-const STORAGE_KEY='pohang_api_url';
-function getSavedUrl(){return localStorage.getItem(STORAGE_KEY)||'';}
-function saveUrl(u){localStorage.setItem(STORAGE_KEY,u);}
-document.getElementById('api-url').value=getSavedUrl();
+let DL = [];
 
-const SCHOOL=[
-  {d:'2026-03-03',t:'입학식·개학식',c:'school'},{d:'2026-03-10',t:'기초학력 진단검사',c:'school'},
-  {d:'2026-03-17',t:'디지털성취도평가',c:'school'},{d:'2026-03-19',t:'1학년 수업공개',c:'school'},
-  {d:'2026-03-20',t:'2,3학년 수업공개',c:'school'},{d:'2026-03-26',t:'리더십캠프',c:'school'},
-  {d:'2026-04-20',t:'1학년 수련(남)',c:'school'},{d:'2026-04-22',t:'1학년 수련(여)',c:'school'},
-  {d:'2026-04-27',t:'1차 정기시험',c:'exam'},{d:'2026-04-28',t:'1차 정기시험',c:'exam'},{d:'2026-04-29',t:'1차 정기시험',c:'exam'},
-  {d:'2026-05-04',t:'재량휴업일',c:'holiday'},{d:'2026-05-05',t:'어린이날',c:'holiday'},
-  {d:'2026-05-14',t:'3학년 현장체험(남)',c:'school'},{d:'2026-05-15',t:'3학년 현장체험(여)',c:'school'},
-  {d:'2026-05-25',t:'부처님 오신날',c:'holiday'},{d:'2026-06-03',t:'지방선거 휴업',c:'holiday'},
-  {d:'2026-06-06',t:'현충일',c:'holiday'},
-  {d:'2026-07-01',t:'2차 정기시험',c:'exam'},{d:'2026-07-02',t:'2차 정기시험',c:'exam'},{d:'2026-07-03',t:'2차 정기시험',c:'exam'},
-  {d:'2026-07-13',t:'꿈길탐색주간',c:'school'},{d:'2026-07-14',t:'꿈길탐색주간',c:'school'},{d:'2026-07-15',t:'꿈길탐색주간',c:'school'},
-  {d:'2026-07-21',t:'방학식',c:'school'},{d:'2026-08-13',t:'2학기 개학',c:'school'},{d:'2026-08-15',t:'광복절',c:'holiday'},
-  {d:'2026-09-30',t:'1차 정기시험(전)',c:'exam'},{d:'2026-10-01',t:'1차 정기시험(전)',c:'exam'},{d:'2026-10-02',t:'1차 정기시험(전)',c:'exam'},
-  {d:'2026-10-03',t:'개천절',c:'holiday'},{d:'2026-10-09',t:'한글날',c:'holiday'},
-  {d:'2026-10-21',t:'한마음 음악회',c:'school'},{d:'2026-10-22',t:'한마음 축제',c:'school'},{d:'2026-10-23',t:'체육 한마당',c:'school'},
-  {d:'2026-10-27',t:'수학여행(2여)',c:'school'},{d:'2026-11-03',t:'수학여행(2남)',c:'school'},
-  {d:'2026-11-09',t:'2차 정기시험(3)',c:'exam'},{d:'2026-11-10',t:'2차 정기시험(3)',c:'exam'},{d:'2026-11-11',t:'2차 정기시험(3)',c:'exam'},
-  {d:'2026-11-19',t:'재량휴업(수능)',c:'holiday'},
-  {d:'2026-12-07',t:'2차 정기시험(1,2)',c:'exam'},{d:'2026-12-08',t:'2차 정기시험(1,2)',c:'exam'},{d:'2026-12-09',t:'2차 정기시험(1,2)',c:'exam'},
-  {d:'2026-12-24',t:'방학식',c:'school'},{d:'2027-02-01',t:'개학',c:'school'},{d:'2027-02-05',t:'졸업식·종업식',c:'school'},
-];
+window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('api-url').value = MY_SCRIPT_URL;
+    loadData(false);
+});
 
-const SAMPLE=[
-  {title:'1학기 교육계획서',date:'2026-04-25',manager:'교무부 김○○',note:'학년 부장 취합',grade:'all'},
-  {title:'수련활동 동의서',date:'2026-04-18',manager:'1학년 담임',note:'미제출 학생 연락',grade:'1'},
-  {title:'학교폭력예방 확인서',date:'2026-05-10',manager:'생활지도부',note:'보호자 서명',grade:'all'},
-  {title:'현장체험 보고서',date:'2026-05-22',manager:'3학년부',note:'사진 포함 5매',grade:'3'},
-  {title:'교원 직무연수 이수',date:'2026-05-30',manager:'연구부',note:'15시간 이상',grade:'training'},
-  {title:'원격연수 수료 확인',date:'2026-06-20',manager:'연구부',note:'연수포털 확인',grade:'training'},
-];
+async function loadData(showMsg = false) {
+  const url = document.getElementById('api-url').value.trim();
+  const msg = document.getElementById('smsg');
+  const loading = '<div class="loading"><div class="sp"></div></div>';
+  
+  document.getElementById('doc-list').innerHTML = loading;
+  document.getElementById('calendar').innerHTML = loading;
 
-function pd(s){const[y,m,d]=s.split('-').map(Number);const dt=new Date(y,m-1,d);dt.setHours(0,0,0,0);return dt;}
-function diff(dt){return Math.round((dt-TODAY)/86400000);}
-function fd(dt){return `${dt.getFullYear()}.${dt.getMonth()+1}.${dt.getDate()} (${DAYS[dt.getDay()]})`;}
-function gm(g){return grade==='all'||g==='all'||grade===g;}
-function dlcls(g){return g==='all'?'dl-all':g==='1'?'dl-1':g==='2'?'dl-2':g==='3'?'dl-3':'training';}
-
-function renderHeader(){
-  document.getElementById('hd-d').textContent=`${TODAY.getFullYear()}년 ${TODAY.getMonth()+1}월 ${TODAY.getDate()}일`;
-  document.getElementById('hd-w').textContent=`${DAYS[TODAY.getDay()]}요일`;
-}
-
-function setGrade(g){
-  grade=g;
-  document.querySelectorAll('.gtab').forEach(el=>el.classList.toggle('active',el.dataset.g===g));
-  renderCal();renderDocs();
-}
-
-function renderCal(){
-  document.getElementById('cal-title').textContent=`${CY}년 ${CM+1}월`;
-  const em={};
-  SCHOOL.forEach(e=>(em[e.d]=em[e.d]||[]).push({t:e.t,c:e.c}));
-  DL.filter(dl=>gm(dl.grade)).forEach(dl=>{
-    (em[dl.date]=em[dl.date]||[]).push({t:dl.title,c:dlcls(dl.grade),dl});
-  });
-  const fd1=new Date(CY,CM,1).getDay(),dim=new Date(CY,CM+1,0).getDate();
-  const tot=Math.ceil((fd1+dim)/7)*7;
-  let html='';
-  for(let i=0;i<tot;i++){
-    const dn=i-fd1+1,isOt=dn<1||dn>dim,dow=i%7;
-    const disp=isOt?(dn<1?new Date(CY,CM,dn).getDate():dn-dim):dn;
-    const ds=`${CY}-${String(CM+1).padStart(2,'0')}-${String(dn).padStart(2,'0')}`;
-    const cdt=new Date(CY,CM,dn);cdt.setHours(0,0,0,0);
-    const isT=!isOt&&cdt.getTime()===TODAY.getTime();
-    let cls='day'+(isOt?' other':'')+(isT?' today':'')+(dow===0?' sun':'')+(dow===6?' sat':'');
-    const evs=(!isOt&&em[ds])?em[ds].slice(0,3):[];
-    const evh=evs.map(e=>{
-      const oc=e.dl?` onclick="showMod(${JSON.stringify(e.dl).replace(/"/g,'&quot;')})"`:'';
-      return `<span class="ev ${e.c}"${oc}>${e.t}</span>`;
-    }).join('');
-    html+=`<div class="${cls}"><div class="dn">${disp}</div>${evh}</div>`;
-  }
-  document.getElementById('days-grid').innerHTML=html;
-}
-
-function renderDocBlock(items, containerId, headLblId, emptyMsg){
-  const d=TODAY;
-  if(headLblId) document.getElementById(headLblId).textContent=`${d.getMonth()+1}월`;
-  const ms=new Date(d.getFullYear(),d.getMonth(),1);ms.setHours(0,0,0,0);
-  const list=items.map(dl=>(({...dl,ts:pd(dl.date)}))).filter(dl=>dl.ts>=ms).sort((a,b)=>a.ts-b.ts);
-  if(!list.length){document.getElementById(containerId).innerHTML=`<div class="empty">${emptyMsg}</div>`;return;}
-  const gl={all:'전학년','1':'1학년','2':'2학년','3':'3학년',training:'연수'};
-  const gc={all:'gb-all','1':'gb-1','2':'gb-2','3':'gb-3',training:'gb-tr'};
-  const html=list.map(dl=>{
-    const dv=diff(dl.ts);
-    let bc,tt,bt;
-    if(dv<0){bc='gray';tt='완료';bt=`${Math.abs(dv)}일전`;}
-    else if(dv===0){bc='red';tt='D';bt='DAY!';}
-    else if(dv<=3){bc='red';tt='D';bt=`-${dv}`;}
-    else if(dv<=7){bc='orange';tt='D';bt=`-${dv}`;}
-    else{bc='green';tt='D';bt=`-${dv}`;}
-    const nc=dv<0?'done':'';
-    const oj=JSON.stringify(dl).replace(/"/g,'&quot;');
-    return `<div class="doc-item" onclick="showMod(${oj})">
-      <div class="dbox ${bc}"><span>${tt}</span><span>${bt}</span></div>
-      <div class="dinfo">
-        <div class="dname ${nc}">${dl.title}<span class="gbadge ${gc[dl.grade]||'gb-all'}">${gl[dl.grade]||''}</span></div>
-        <div class="dsub">📅 ${fd(dl.ts)} · 👤 ${dl.manager||'—'}</div>
-      </div>
-    </div>`;
-  }).join('');
-  document.getElementById(containerId).innerHTML=html;
-}
-
-function renderDocs(){
-  const docs=DL.filter(dl=>dl.grade!=='training'&&gm(dl.grade));
-  const trains=DL.filter(dl=>dl.grade==='training');
-  renderDocBlock(docs,'doc-list','mo-lbl','이번 달 제출 서류가 없습니다.');
-  renderDocBlock(trains,'train-list',null,'이번 달 완료할 연수가 없습니다.');
-}
-
-function chM(d){CM+=d;if(CM>11){CM=0;CY++;}if(CM<0){CM=11;CY--;}renderCal();}
-function goToday(){CY=TODAY.getFullYear();CM=TODAY.getMonth();renderCal();}
-
-function showMod(dl){
-  if(!dl.ts)dl.ts=pd(dl.date);
-  const dv=diff(dl.ts);
-  const dl2=dv<0?`${Math.abs(dv)}일 전 마감`:dv===0?'D-day!':`D-${dv}`;
-  const gl={all:'전학년','1':'1학년','2':'2학년','3':'3학년',training:'연수'};
-  document.getElementById('mt').textContent=dl.title;
-  document.getElementById('mr').innerHTML=`
-    <div class="mrow"><span class="mlbl">마감일</span><span class="mval">${fd(dl.ts)}</span></div>
-    <div class="mrow"><span class="mlbl">남은 기간</span><span class="mval" style="color:#1a2744;font-weight:700">${dl2}</span></div>
-    <div class="mrow"><span class="mlbl">대상</span><span class="mval">${gl[dl.grade]||dl.grade||'—'}</span></div>
-    <div class="mrow"><span class="mlbl">담당자</span><span class="mval">${dl.manager||'—'}</span></div>
-    <div class="mrow"><span class="mlbl">비고</span><span class="mval">${dl.note||'—'}</span></div>`;
-  document.getElementById('modal').classList.add('open');
-}
-function closeMod(e){if(e.target.id==='modal')document.getElementById('modal').classList.remove('open');}
-
-// ── 핵심: CORS 우회 + 에러 처리 ─────────────────────────────
-async function loadData(show=false){
-  const url=document.getElementById('api-url').value.trim();
-  const msg=document.getElementById('smsg');
-  if(!url){
-    if(show){msg.className='smsg er';msg.textContent='URL을 입력해 주세요.';}
-    DL=[];renderDocs();return;
-  }
-  saveUrl(url);
-  document.getElementById('doc-list').innerHTML='<div class="loading"><div class="sp"></div>불러오는 중...</div>';
-  document.getElementById('train-list').innerHTML='<div class="loading"><div class="sp"></div>불러오는 중...</div>';
-  try{
-    // no-cors 우회 없이 일반 fetch — Apps Script는 CORS 허용이 필요
-    const r=await fetch(url,{method:'GET',mode:'cors'});
-    if(!r.ok) throw new Error(`HTTP ${r.status}`);
-    const data=await r.json();
-    if(!Array.isArray(data)) throw new Error('데이터 형식 오류');
-    DL=data;
-    renderCal();renderDocs();
-    if(show){msg.className='smsg ok';msg.textContent=`✓ ${data.length}건 불러옴 · ${new Date().toLocaleTimeString('ko-KR')}`;}
-  }catch(err){
-    DL=[];renderCal();renderDocs();
-    if(show){msg.className='smsg er';msg.textContent=`⚠ 실패: ${err.message} — Apps Script 재배포 필요`;}
-    console.error('loadData error:',err);
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    DL = data;
+    renderCal();
+    renderDocs();
+    if(showMsg) { msg.style.color='#38a169'; msg.textContent='✓ 업데이트 완료!'; }
+  } catch(err) {
+    if(showMsg) { msg.style.color='#e53e3e'; msg.textContent='⚠ 연결 실패'; }
   }
 }
 
-function useSample(){DL=SAMPLE;renderCal();renderDocs();document.getElementById('smsg').className='smsg ok';document.getElementById('smsg').textContent='샘플 데이터 표시 중';}
+function renderCal() {
+  const container = document.getElementById('calendar');
+  const now = new Date(); 
+  const year = 2026, month = 3; // 2026년 4월 기준 (0부터 시작하므로 3)
+  document.getElementById('cal-month-title').textContent = `2026년 4월 학사일정`;
 
-renderHeader();renderCal();
-if(getSavedUrl())loadData(false);
-else renderDocs();
-setInterval(()=>{if(getSavedUrl())loadData(false);},5*60*1000);
+  const firstDay = new Date(year, month, 1).getDay();
+  const lastDate = new Date(year, month + 1, 0).getDate();
+  let html = '';
+  ['일','월','화','수','목','금','토'].forEach(d => html += `<div class="cal-day-label">${d}</div>`);
+  for(let i=0; i<firstDay; i++) html += '<div></div>';
+  for(let d=1; d<=lastDate; d++) {
+    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayEvents = DL.filter(item => item.date === dateStr);
+    html += `<div class="cal-cell"><span class="date-num">${d}</span>${dayEvents.map(ev => `<div class="event-item ev-${ev.grade}">${ev.title}</div>`).join('')}</div>`;
+  }
+  container.innerHTML = html;
+}
+
+function renderDocs() {
+  const docs = DL.filter(item => item.grade !== 'training');
+  const trains = DL.filter(item => item.grade === 'training');
+  const mapping = item => `<div class="list-item ${item.grade === 'all' ? 'all' : 'g'+item.grade}"><div class="li-top"><span class="li-title">${item.title}</span><span class="li-date">${item.date.slice(5)}</span></div><div class="li-etc">${item.manager}</div></div>`;
+  document.getElementById('doc-list').innerHTML = docs.length ? docs.map(mapping).join('') : '일정 없음';
+  document.getElementById('train-list').innerHTML = trains.length ? trains.map(mapping).join('') : '연수 없음';
+}
 </script>
 </body>
 </html>

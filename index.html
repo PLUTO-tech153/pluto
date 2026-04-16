@@ -17,28 +17,41 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;min-height:100vh;c
 .logo-wrap img{width:100%;height:100%;object-fit:contain}
 .hdr-text h1{color:#fff;font-size:20px;font-weight:700}
 
-/* LAYOUT: 달력 영역을 더 넓게 (1fr -> 1.2fr) */
-.container{max-width:1400px;margin:15px auto;padding:0 20px;display:grid;grid-template-columns:1fr 300px;gap:20px}
+/* LAYOUT */
+.container{max-width:1400px;margin:15px auto;padding:0 20px;display:grid;grid-template-columns:1fr 320px;gap:20px}
 
-/* 바로가기 버튼 스타일 */
+/* 바로가기 버튼 */
 .quick-links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
 .ln-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;transition:0.2s;color:#fff}
 .ln-neis{background:#3182ce}.ln-neis:hover{background:#2b6cb0}
 .ln-ep{background:#4a5568}.ln-ep:hover{background:#2d3748}
 
-/* 카드 및 달력 크기 확대 */
+/* 카드 영역 */
 .card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);padding:20px;margin-bottom:15px}
 .card-title{font-size:17px;font-weight:700;margin-bottom:15px;display:flex;align-items:center;gap:8px;color:#2d3748}
 .card-title::before{content:'';display:inline-block;width:4px;height:18px;background:#3182ce;border-radius:2px}
 
+/* 카테고리 필터 탭 (새로 추가됨) */
+.filter-tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px}
+.ft-btn{padding:6px 12px;border:1px solid #e2e8f0;background:#fff;border-radius:20px;font-size:12px;font-weight:600;color:#4a5568;cursor:pointer;white-space:nowrap;transition:0.2s}
+.ft-btn:hover{background:#edf2f7}
+.ft-btn.active{background:#3182ce;color:#fff;border-color:#3182ce}
+
+/* 달력 */
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#cbd5e0;border:1px solid #cbd5e0}
 .cal-day-label{background:#edf2f7;font-size:13px;font-weight:700;padding:10px 0;color:#4a5568;text-align:center}
-/* 날짜 칸 높이 확대 */
 .cal-cell{min-height:110px;background:#fff;padding:8px;font-size:13px;position:relative}
 .cal-cell.sun{color:#e53e3e;background:#fffafb}.cal-cell.sat{color:#3182ce;background:#f7faff}
 .date-num{font-weight:700;margin-bottom:6px;display:block}
 
-/* 일정 표시 라벨 */
+/* 뱃지 및 라벨 (카테고리 명시) */
+.badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:700;margin-right:6px;vertical-align:middle}
+.b-all{background:#edf2f7;color:#4a5568}
+.b-1{background:#e1effe;color:#1e429f}
+.b-2{background:#def7ec;color:#03543f}
+.b-3{background:#fdf2f2;color:#9b1c1c}
+.b-training{background:#fef3c7;color:#92400e}
+
 .event-item{font-size:11px;padding:3px 6px;border-radius:4px;margin-bottom:3px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ev-all{background:#edf2f7;color:#2d3748;border-left:3px solid #718096}
 .ev-1{background:#e1effe;color:#1e429f;border-left:3px solid #3182ce}
@@ -52,11 +65,12 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;min-height:100vh;c
 .list-item.g1{border-left-color:#3182ce}
 .list-item.g2{border-left-color:#38a169}
 .list-item.g3{border-left-color:#e53e3e}
-.li-top{display:flex;justify-content:space-between;margin-bottom:4px}
-.li-title{font-weight:700;font-size:14px}
-.li-date{font-size:11px;color:#e53e3e;font-weight:700}
-.li-etc{font-size:11px;color:#718096}
+.li-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.li-title{font-weight:700;font-size:14px;display:flex;align-items:center}
+.li-date{font-size:11px;color:#e53e3e;font-weight:700;white-space:nowrap}
+.li-etc{font-size:11px;color:#718096;margin-top:4px}
 
+/* 설정 창 */
 .settings{position:fixed;bottom:15px;right:15px;z-index:1000}
 .settings-btn{width:35px;height:35px;background:#1a2744;color:#fff;border-radius:50%;border:none;cursor:pointer;opacity:0.3;transition:0.3s}
 .settings-btn:hover{opacity:1}
@@ -78,7 +92,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;min-height:100vh;c
 <div class="container">
   <div class="main-content">
     <div class="card">
-      <div class="card-title" id="cal-month-title">2026년 4월</div>
+      <div class="card-title" id="cal-month-title">2026년 4월 학사일정</div>
       <div class="cal-grid" id="calendar"></div>
     </div>
   </div>
@@ -91,8 +105,16 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;min-height:100vh;c
 
     <div class="card">
       <div class="card-title">중요 서류 마감</div>
+      <div class="filter-tabs" id="doc-filters">
+        <button class="ft-btn active" onclick="setFilter('all', this)">전체보기</button>
+        <button class="ft-btn" onclick="setFilter('all-g', this)">전학년</button>
+        <button class="ft-btn" onclick="setFilter('1', this)">1학년</button>
+        <button class="ft-btn" onclick="setFilter('2', this)">2학년</button>
+        <button class="ft-btn" onclick="setFilter('3', this)">3학년</button>
+      </div>
       <div id="doc-list"></div>
     </div>
+
     <div class="card">
       <div class="card-title">교사 연수/행사</div>
       <div id="train-list"></div>
@@ -111,7 +133,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;min-height:100vh;c
 </div>
 
 <script>
-// PDF 기본 데이터 (달력 표시용)
+// PDF 기본 데이터 (달력에만 표시됨)
 const BASE_DATA = [
   {date:"2026-03-02", title:"입학식 및 개학식", grade:"all", manager:"교무기획부", isBase:true},
   {date:"2026-03-10", title:"기초학력 진단검사", grade:"all", manager:"교육과정부", isBase:true},
@@ -127,11 +149,33 @@ const BASE_DATA = [
 
 const MY_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzcsOvmG5Pm191qeC_j1qQ2GV4Uuc5HYDvM5kdEC_HnqoJrx_HWVGV3PUaJZNrzretk/exec";
 let DL = [...BASE_DATA];
+let currentFilter = 'all'; // 현재 선택된 필터 상태
+
+// 학년 표시용 한글 매핑
+const GRADE_MAP = {
+  'all': '전학년',
+  '1': '1학년',
+  '2': '2학년',
+  '3': '3학년',
+  'training': '연수'
+};
 
 window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('api-url').value = MY_SCRIPT_URL;
     loadData(false);
 });
+
+// 필터 버튼 클릭 시 실행되는 함수
+function setFilter(filterType, btnElement) {
+  currentFilter = filterType;
+  
+  // 모든 버튼의 색상을 원래대로 되돌리고, 클릭한 버튼만 파란색으로 칠함
+  document.querySelectorAll('.ft-btn').forEach(btn => btn.classList.remove('active'));
+  btnElement.classList.add('active');
+  
+  // 화면 다시 그리기
+  renderDocs();
+}
 
 async function loadData(showMsg) {
   const url = document.getElementById('api-url').value.trim();
@@ -140,7 +184,6 @@ async function loadData(showMsg) {
     const response = await fetch(url);
     const newData = await response.json();
     if(Array.isArray(newData)) {
-      // 시트 데이터에 마킹을 해서 구분합니다.
       const markedNewData = newData.map(item => ({...item, isBase: false}));
       DL = [...BASE_DATA, ...markedNewData];
     }
@@ -151,7 +194,7 @@ async function loadData(showMsg) {
 
 function renderCal() {
   const container = document.getElementById('calendar');
-  const year = 2026, month = 3; // 4월
+  const year = 2026, month = 3; 
   const firstDay = new Date(year, month, 1).getDay();
   const lastDate = new Date(year, month + 1, 0).getDate();
   let html = '';
@@ -161,22 +204,42 @@ function renderCal() {
     const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const dayEvents = DL.filter(ev => ev.date === dateStr);
     const dayClass = new Date(year, month, d).getDay() === 0 ? 'sun' : (new Date(year, month, d).getDay() === 6 ? 'sat' : '');
-    html += `<div class="cal-cell ${dayClass}"><span class="date-num">${d}</span>${dayEvents.map(ev => `<div class="event-item ev-${ev.grade}">${ev.title}</div>`).join('')}</div>`;
+    html += `<div class="cal-cell ${dayClass}"><span class="date-num">${d}</span>${dayEvents.map(ev => `<div class="event-item ev-${ev.grade}">[${GRADE_MAP[ev.grade]}] ${ev.title}</div>`).join('')}</div>`;
   }
   container.innerHTML = html;
 }
 
 function renderDocs() {
-  // ★ 중요 수정: isBase가 false인(시트에서 온) 데이터만 리스트에 표시
+  // 구글 시트에서 작성한 데이터만 가져오기
   const listItems = DL.filter(ev => !ev.isBase);
   
-  const docs = listItems.filter(ev => ev.grade !== 'training').sort((a,b)=>new Date(a.date)-new Date(b.date));
+  // 연수 일정을 제외한 서류 마감 리스트
+  let docs = listItems.filter(ev => ev.grade !== 'training').sort((a,b)=>new Date(a.date)-new Date(b.date));
+  
+  // 선택한 카테고리에 맞춰 필터링
+  if(currentFilter !== 'all') {
+    const targetGrade = currentFilter === 'all-g' ? 'all' : currentFilter;
+    docs = docs.filter(ev => ev.grade === targetGrade);
+  }
+
+  // 연수 리스트
   const trains = listItems.filter(ev => ev.grade === 'training');
   
-  const mapping = ev => `<div class="list-item ${ev.grade==='all'?'all':'g'+ev.grade}"><div class="li-top"><span class="li-title">${ev.title}</span><span class="li-date">${ev.date.slice(5)}</span></div><div class="li-etc">${ev.manager || ''} ${ev.note ? '| '+ev.note : ''}</div></div>`;
+  // 화면에 그리는 양식 (학년 뱃지 추가됨)
+  const mapping = ev => `
+    <div class="list-item ${ev.grade==='all'?'all':'g'+ev.grade}">
+      <div class="li-top">
+        <span class="li-title">
+          <span class="badge b-${ev.grade}">${GRADE_MAP[ev.grade]}</span>
+          ${ev.title}
+        </span>
+        <span class="li-date">${ev.date.slice(5)}</span>
+      </div>
+      <div class="li-etc">${ev.manager || ''} ${ev.note ? '| '+ev.note : ''}</div>
+    </div>`;
   
-  document.getElementById('doc-list').innerHTML = docs.length ? docs.map(mapping).join('') : '<p style="text-align:center; font-size:12px; color:#a0aec0; padding:10px;">시트에 등록된 서류 일정이 없습니다.</p>';
-  document.getElementById('train-list').innerHTML = trains.length ? trains.map(mapping).join('') : '<p style="text-align:center; font-size:12px; color:#a0aec0; padding:10px;">시트에 등록된 연수 일정이 없습니다.</p>';
+  document.getElementById('doc-list').innerHTML = docs.length ? docs.map(mapping).join('') : '<p style="text-align:center; font-size:12px; color:#a0aec0; padding:15px 0;">해당 카테고리의 일정이 없습니다.</p>';
+  document.getElementById('train-list').innerHTML = trains.length ? trains.map(mapping).join('') : '<p style="text-align:center; font-size:12px; color:#a0aec0; padding:15px 0;">시트에 등록된 연수 일정이 없습니다.</p>';
 }
 </script>
 </body>

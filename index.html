@@ -3,238 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>포항제철중학교 2026 학사일정</title>
+<title>포항제철중 2026 학사일정</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-/* ───────────────────────────── 기본 스타일 ───────────────────────────── */
+/* 디자인 최적화: 빈 공간 줄이기 */
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Noto Sans KR',sans-serif;background:#eef1f6;min-height:100vh;color:#1a1a2e}
-
-/* HEADER */
-.hdr{background:#1a2744;display:flex;align-items:center;justify-content:space-between;padding:10px 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.hdr-left{display:flex;align-items:center;gap:12px}
-
-/* 로고 박스: 흰색 배경에 둥근 모서리 */
-.logo-wrap{width:46px;height:46px;background:#ffffff;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:4px;box-shadow: 0 2px 4px rgba(0,0,0,0.1);}
+body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;min-height:100vh;color:#1a1a2e;line-height:1.4}
+.hdr{background:#1a2744;display:flex;align-items:center;padding:12px 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.hdr-left{display:flex;align-items:center;gap:15px}
+.logo-wrap{width:40px;height:40px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:3px}
 .logo-wrap img{width:100%;height:100%;object-fit:contain}
-
-.hdr-text h1{color:#fff;font-size:18px;font-weight:700;letter-spacing:-0.5px}
-.hdr-text p{color:#a0aec0;font-size:12px}
-
-/* 메인 컨테이너 */
-.container{max-width:1100px;margin:20px auto;padding:0 20px;display:grid;grid-template-columns:1fr 340px;gap:20px}
-
-/* 카드 공통 */
-.card{background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.05);padding:24px;margin-bottom:20px}
-.card-title{font-size:18px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;color:#2d3748}
-.card-title::before{content:'';display:inline-block;width:4px;height:18px;background:#3182ce;border-radius:2px}
-
-/* 달력 스타일 */
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
-.cal-day-label{font-size:12px;font-weight:700;padding:10px 0;color:#718096}
-.cal-cell{min-height:90px;background:#f8fafc;border-radius:8px;padding:6px;font-size:13px;position:relative;transition:all 0.2s}
-.cal-cell:hover{background:#edf2f7}
-.cal-cell.today{background:#ebf8ff;box-shadow:inset 0 0 0 2px #3182ce}
-.cal-cell.sun{color:#e53e3e}.cal-cell.sat{color:#3182ce}
-.date-num{font-weight:600;margin-bottom:4px;display:block}
-.event-item{font-size:11px;padding:3px 6px;border-radius:4px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:default;font-weight:500}
-.ev-all{background:#e2e8f0;color:#1a2744}
-.ev-1{background:#bee3f8;color:#2b6cb0}
-.ev-2{background:#c6f6d5;color:#2f855a}
-.ev-3{background:#fed7e2;color:#9b2c2c}
-.ev-training{background:#feebc8;color:#c05621}
-
-/* 리스트 스타일 */
-.list-item{padding:14px;border-radius:12px;background:#f8fafc;margin-bottom:10px;border-left:5px solid #cbd5e0;transition:transform 0.2s}
-.list-item:hover{transform:translateX(5px)}
-.list-item.all{border-left-color:#1a2744}
+.hdr-text h1{color:#fff;font-size:20px;font-weight:700}
+.container{max-width:1200px;margin:10px auto;padding:0 15px;display:grid;grid-template-columns:1fr 320px;gap:15px}
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);padding:15px;margin-bottom:15px}
+.card-title{font-size:16px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:#2d3748}
+.card-title::before{content:'';display:inline-block;width:4px;height:16px;background:#3182ce;border-radius:2px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e2e8f0;border:1px solid #e2e8f0}
+.cal-day-label{background:#f8fafc;font-size:11px;font-weight:700;padding:6px 0;color:#718096;text-align:center}
+.cal-cell{min-height:80px;background:#fff;padding:5px;font-size:12px;position:relative}
+.cal-cell.sun{color:#e53e3e;background:#fffafb}.cal-cell.sat{color:#3182ce;background:#f7faff}
+.date-num{font-weight:600;margin-bottom:3px;display:block}
+.event-item{font-size:10px;padding:2px 4px;border-radius:3px;margin-bottom:2px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev-all{background:#edf2f7;color:#2d3748;border-left:3px solid #718096}
+.ev-1{background:#e1effe;color:#1e429f;border-left:3px solid #3182ce}
+.ev-2{background:#def7ec;color:#03543f;border-left:3px solid #38a169}
+.ev-3{background:#fdf2f2;color:#9b1c1c;border-left:3px solid #e53e3e}
+.ev-training{background:#fef3c7;color:#92400e;border-left:3px solid #d97706}
+.list-item{padding:10px;border-radius:8px;background:#f8fafc;margin-bottom:6px;border-left:4px solid #cbd5e0}
+.list-item.all{border-left-color:#4a5568}
 .list-item.g1{border-left-color:#3182ce}
 .list-item.g2{border-left-color:#38a169}
 .list-item.g3{border-left-color:#e53e3e}
-.list-item.tr{border-left-color:#ed8936}
-.li-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
-.li-title{font-weight:700;font-size:15px;color:#2d3748}
-.li-date{font-size:13px;font-weight:700;color:#e53e3e;background:#fff5f5;padding:2px 8px;border-radius:20px}
-.li-etc{font-size:12px;color:#718096}
-
-/* 연동 설정 창 (하단 고정) */
-.settings{position:fixed;bottom:20px;right:20px;z-index:1000}
-.settings-btn{width:44px;height:44px;background:#1a2744;color:#fff;border-radius:50%;border:none;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:20px}
-.settings-panel{position:absolute;bottom:55px;right:0;width:320px;background:#fff;border-radius:16px;padding:20px;box-shadow:0 10px 25px rgba(0,0,0,0.2);display:none}
+.li-top{display:flex;justify-content:space-between;margin-bottom:2px}
+.li-title{font-weight:700;font-size:13px}
+.li-date{font-size:10px;color:#e53e3e;font-weight:700}
+.li-etc{font-size:10px;color:#718096}
+.settings{position:fixed;bottom:15px;right:15px;z-index:1000}
+.settings-btn{width:35px;height:35px;background:#1a2744;color:#fff;border-radius:50%;border:none;cursor:pointer;opacity:0.4;transition:0.3s}
+.settings-btn:hover{opacity:1}
+.settings-panel{position:absolute;bottom:45px;right:0;width:260px;background:#fff;border-radius:12px;padding:15px;box-shadow:0 5px 20px rgba(0,0,0,0.2);display:none}
 .settings-panel.active{display:block}
-.input-group{margin-bottom:12px}
-.input-group label{display:block;font-size:12px;font-weight:700;margin-bottom:5px;color:#4a5568}
-.input-group input{width:100%;padding:10px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px}
-.btn-save{width:100%;padding:10px;background:#3182ce;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer}
-.smsg{font-size:12px;margin-top:8px;text-align:center}
-.smsg.ok{color:#38a169}.smsg.er{color:#e53e3e}
-
-.loading{text-align:center;padding:40px;color:#718096}
-.sp{width:24px;height:24px;border:3px solid #e2e8f0;border-top-color:#3182ce;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 10px}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-@media(max-width:850px){
-  .container{grid-template-columns:1fr;padding:10px}
-  .hdr{padding:10px 16px}
-}
+@media(max-width:850px){ .container{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
-
 <header class="hdr">
   <div class="hdr-left">
-    <div class="logo-wrap">
-      <img src="logo.png.JPG" alt="포항제철중 로고">
-    </div>
-    <div class="hdr-text">
-      <h1>포항제철중학교</h1>
-      <p>2026학년도 학사일정 및 서류마감 알리미</p>
-    </div>
+    <div class="logo-wrap"><img src="logo.png.JPG" alt="로고"></div>
+    <div class="hdr-text"><h1>포항제철중학교 2026학년도 학사일정</h1></div>
   </div>
 </header>
-
 <div class="container">
   <div class="main-content">
     <div class="card">
-      <div class="card-title" id="cal-month-title">학사일정</div>
+      <div class="card-title" id="cal-month-title">4월 학사일정</div>
       <div class="cal-grid" id="calendar"></div>
     </div>
   </div>
-
   <div class="side-content">
-    <div class="card">
-      <div class="card-title">중요 서류 마감</div>
-      <div id="doc-list"></div>
-    </div>
-    <div class="card">
-      <div class="card-title">교사 연수 일정</div>
-      <div id="train-list"></div>
-    </div>
+    <div class="card"><div class="card-title">중요 서류 마감</div><div id="doc-list"></div></div>
+    <div class="card"><div class="card-title">교사 연수/행사</div><div id="train-list"></div></div>
   </div>
 </div>
-
 <div class="settings">
   <button class="settings-btn" onclick="document.querySelector('.settings-panel').classList.toggle('active')">⚙</button>
   <div class="settings-panel">
-    <div class="card-title" style="margin-bottom:10px; font-size:15px">구글 시트 연동 설정</div>
-    <div class="input-group">
-      <label>Apps Script 웹 앱 URL</label>
-      <input type="text" id="api-url" placeholder="https://script.google.com/...">
-    </div>
-    <button class="btn-save" onclick="loadData(true)">연동 및 데이터 새로고침</button>
-    <div id="smsg" class="smsg"></div>
-    <p style="font-size:11px; color:#a0aec0; margin-top:15px; line-height:1.4">
-      ※ 구글 시트 내용을 수정하신 후 위 버튼을 누르면 즉시 반영됩니다.
-    </p>
+    <p style="font-size:11px; margin-bottom:8px; font-weight:700">연동 URL</p>
+    <input type="text" id="api-url" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px; font-size:11px; margin-bottom:10px">
+    <button onclick="loadData(true)" style="width:100%; padding:8px; background:#3182ce; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:700; font-size:11px">새로고침</button>
+    <div id="smsg" style="font-size:10px; margin-top:5px; text-align:center"></div>
   </div>
 </div>
-
 <script>
-// ───────────────────────────── 데이터 처리 ─────────────────────────────
-
-// ★ 선생님의 진짜 구글 앱 스크립트 주소 적용 완료 ★
+// PDF에서 추출한 기본 데이터 복구
+const BASE_DATA = [
+  {date:"2026-03-02", title:"입학식 및 개학식", grade:"all", manager:"교무기획부"},
+  {date:"2026-03-10", title:"기초학력 진단검사", grade:"all", manager:"교육과정부"},
+  {date:"2026-03-17", title:"맞춤형 성취도평가", grade:"all", manager:"교육과정부"},
+  {date:"2026-04-02", title:"대체 공휴일", grade:"all", manager:"휴업일"},
+  {date:"2026-04-20", title:"1학년 체험활동", grade:"1", manager:"1학년부"},
+  {date:"2026-04-21", title:"1학년 체험활동", grade:"1", manager:"1학년부"},
+  {date:"2026-04-27", title:"1차 정기고사(2,3학년)", grade:"3", manager:"교육과정부"},
+  {date:"2026-04-28", title:"1차 정기고사(2,3학년)", grade:"3", manager:"교육과정부"},
+  {date:"2026-05-04", title:"재량휴업일", grade:"all", manager:"휴업일"},
+  {date:"2026-05-05", title:"어린이날", grade:"all", manager:"휴업일"}
+];
 const MY_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzcsOvmG5Pm191qeC_j1qQ2GV4Uuc5HYDvM5kdEC_HnqoJrx_HWVGV3PUaJZNrzretk/exec";
-
-let DL = []; // 데이터 보관 배열
-
-// 페이지가 열리자마자 실행되는 함수
+let DL = [...BASE_DATA];
 window.addEventListener('DOMContentLoaded', () => {
-    // 1. 설정창에 주소를 미리 넣어줌
-    const urlInput = document.getElementById('api-url');
-    urlInput.value = MY_SCRIPT_URL;
-    
-    // 2. 자동으로 데이터 불러오기 실행
+    document.getElementById('api-url').value = MY_SCRIPT_URL;
     loadData(false);
 });
-
-async function loadData(showMsg = false) {
+async function loadData(showMsg) {
   const url = document.getElementById('api-url').value.trim();
   const msg = document.getElementById('smsg');
-  
-  if(!url || !url.startsWith('http')) {
-    if(showMsg) { msg.className='smsg er'; msg.textContent='올바른 URL을 입력해 주세요.'; }
-    return;
-  }
-
-  // 로딩 표시
-  const loadingHtml = '<div class="loading"><div class="sp"></div>불러오는 중...</div>';
-  document.getElementById('doc-list').innerHTML = loadingHtml;
-  document.getElementById('calendar').innerHTML = loadingHtml;
-
   try {
     const response = await fetch(url);
-    if(!response.ok) throw new Error('네트워크 응답 오류');
-    const data = await response.json();
-    
-    if(!Array.isArray(data)) throw new Error('데이터 형식 오류');
-
-    DL = data;
-    renderCal();
-    renderDocs();
-
-    if(showMsg) {
-      msg.className = 'smsg ok';
-      msg.textContent = `✓ ${data.length}건 업데이트 완료!`;
-      setTimeout(() => { document.querySelector('.settings-panel').classList.remove('active'); }, 1500);
-    }
-  } catch(err) {
-    console.error(err);
-    document.getElementById('doc-list').innerHTML = '<div style="text-align:center; padding:20px; color:#e53e3e;">데이터를 불러오지 못했습니다. <br> 구글 시트 주소를 확인하세요.</div>';
-    if(showMsg) { msg.className='smsg er'; msg.textContent='연동 실패. 권한 설정을 확인하세요.'; }
-  }
+    const newData = await response.json();
+    if(Array.isArray(newData) && newData.length > 0) { DL = [...BASE_DATA, ...newData]; }
+    renderCal(); renderDocs();
+    if(showMsg) msg.textContent = "✓ 반영 완료";
+  } catch(e) { renderCal(); renderDocs(); }
 }
-
 function renderCal() {
   const container = document.getElementById('calendar');
-  const year = 2026, month = 3; // 2026년 4월 고정
-  
-  document.getElementById('cal-month-title').textContent = `2026년 4월 학사일정`;
-
+  const year = 2026, month = 3; // 4월
   const firstDay = new Date(year, month, 1).getDay();
   const lastDate = new Date(year, month + 1, 0).getDate();
-  
   let html = '';
-  const days = ['일','월','화','수','목','금','토'];
-  days.forEach(d => html += `<div class="cal-day-label">${d}</div>`);
-
-  for(let i=0; i<firstDay; i++) html += '<div></div>';
-
+  ['일','월','화','수','목','금','토'].forEach(d => html += `<div class="cal-day-label">${d}</div>`);
+  for(let i=0; i<firstDay; i++) html += '<div class="cal-cell"></div>';
   for(let d=1; d<=lastDate; d++) {
     const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayEvents = DL.filter(ev => ev.date === dateStr);
     const dayClass = new Date(year, month, d).getDay() === 0 ? 'sun' : (new Date(year, month, d).getDay() === 6 ? 'sat' : '');
-    const isToday = new Date().toDateString() === new Date(year, month, d).toDateString() ? 'today' : '';
-    
-    const dayEvents = DL.filter(item => item.date === dateStr);
-    
-    html += `<div class="cal-cell ${dayClass} ${isToday}">
-      <span class="date-num">${d}</span>
-      ${dayEvents.map(ev => `<div class="event-item ev-${ev.grade}">${ev.title}</div>`).join('')}
-    </div>`;
+    html += `<div class="cal-cell ${dayClass}"><span class="date-num">${d}</span>${dayEvents.map(ev => `<div class="event-item ev-${ev.grade}">${ev.title}</div>`).join('')}</div>`;
   }
   container.innerHTML = html;
 }
-
 function renderDocs() {
-  const docList = document.getElementById('doc-list');
-  const trainList = document.getElementById('train-list');
-  
-  const docs = DL.filter(item => item.grade !== 'training').sort((a,b) => new Date(a.date) - new Date(b.date));
-  const trains = DL.filter(item => item.grade === 'training').sort((a,b) => new Date(a.date) - new Date(b.date));
-
-  const mapping = item => `
-    <div class="list-item ${item.grade === 'all' ? 'all' : 'g'+item.grade}">
-      <div class="li-top">
-        <span class="li-title">${item.title}</span>
-        <span class="li-date">${item.date.slice(5)} 마감</span>
-      </div>
-      <div class="li-etc">${item.manager} ${item.note ? '| '+item.note : ''}</div>
-    </div>
-  `;
-
-  docList.innerHTML = docs.length ? docs.map(mapping).join('') : '<p style="text-align:center; color:#a0aec0; padding:20px;">일정이 없습니다.</p>';
-  trainList.innerHTML = trains.length ? trains.map(mapping).join('') : '<p style="text-align:center; color:#a0aec0; padding:20px;">예정된 연수가 없습니다.</p>';
+  const docs = DL.filter(ev => ev.grade !== 'training').sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const trains = DL.filter(ev => ev.grade === 'training');
+  const mapping = ev => `<div class="list-item ${ev.grade==='all'?'all':'g'+ev.grade}"><div class="li-top"><span class="li-title">${ev.title}</span><span class="li-date">${ev.date.slice(5)}</span></div><div class="li-etc">${ev.manager}</div></div>`;
+  document.getElementById('doc-list').innerHTML = docs.length ? docs.map(mapping).join('') : '일정 없음';
+  document.getElementById('train-list').innerHTML = trains.length ? trains.map(mapping).join('') : '예정된 행사 없음';
 }
 </script>
-
 </body>
 </html>

@@ -28,46 +28,15 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 .nav-month{display:flex;align-items:center;gap:16px;font-size:20px;font-weight:700;color:#1e2937}
 .nav-btn{background:none;border:none;font-size:28px;cursor:pointer;color:#3b82f6;padding:0 8px}
 
-.cal-grid{
-  flex:1;
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  grid-template-rows:50px repeat(6,1fr);
-  gap:1px;
-  background:#cbd5e0;
-  border:1px solid #cbd5e0;
-  border-radius:12px;
-  overflow:hidden;
-  min-height:580px;
-}
+.cal-grid{flex:1;display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:50px repeat(6,1fr);gap:1px;background:#cbd5e0;border:1px solid #cbd5e0;border-radius:12px;overflow:hidden;min-height:580px}
 .cal-day-label{background:#f8fafc;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;color:#64748b}
-.cal-cell{
-  background:#fff;
-  padding:10px 8px;
-  font-size:13px;
-  display:flex;
-  flex-direction:column;
-  position:relative;
-  overflow:hidden;
-}
-.cal-cell.sun{color:#ef4444}
-.cal-cell.sat{color:#3b82f6}
+.cal-cell{background:#fff;padding:10px 8px;font-size:13px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.cal-cell.sun{color:#ef4444} .cal-cell.sat{color:#3b82f6}
 .cal-cell.today{border:3px solid #facc15;background:#fefce8}
-
 .date-num{font-weight:700;font-size:15px;margin-bottom:6px}
+
 .events-wrap{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
-.event-item{
-  font-size:12px;
-  padding:5px 7px;
-  border-radius:6px;
-  line-height:1.3;
-  white-space:normal;
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-  cursor:default;
-}
+.event-item{font-size:12px;padding:5px 7px;border-radius:6px;line-height:1.3;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:default}
 .ev-all{border-left:5px solid #64748b;background:#f8fafc;color:#1e2937}
 .ev-1{border-left:5px solid #3b82f6;background:#dbeafe;color:#1e40af}
 .ev-2{border-left:5px solid #10b981;background:#d1fae5;color:#14532d}
@@ -77,13 +46,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 .ft-btn{padding:8px 20px;border-radius:9999px;font-size:14px;font-weight:600;cursor:pointer;transition:0.2s;border:none}
 .ft-btn.active{background:#3b82f6;color:#fff}
 
-.list-item{
-  padding:14px;
-  border-radius:12px;
-  background:#f8fafc;
-  margin-bottom:10px;
-  border-left:5px solid #64748b;
-}
+.list-item{padding:14px;border-radius:12px;background:#f8fafc;margin-bottom:10px;border-left:5px solid #64748b}
 .li-top{display:flex;justify-content:space-between;align-items:center}
 .li-title{font-weight:700;font-size:15px}
 .li-date{font-size:13px;color:#64748b;font-weight:500}
@@ -92,7 +55,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 .settings-btn{width:48px;height:48px;background:#0f172a;color:#fff;border-radius:50%;border:none;cursor:pointer;font-size:22px;box-shadow:0 4px 15px rgba(0,0,0,.2)}
 .settings-panel{position:absolute;bottom:60px;right:0;width:280px;background:#fff;border-radius:16px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.2);display:none}
 .settings-panel.active{display:block}
-
 @media(max-width:1024px){.container{grid-template-columns:1fr}}
 </style>
 </head>
@@ -154,7 +116,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 </div>
 
 <script>
-// ==================== PDF 기반 초기 데이터 ====================
+// ==================== PDF 기반 초기 데이터 (BASE_DATA) ====================
 const BASE_DATA = [
   {date:"2026-03-03", title:"입학식 / 개학식 / 신입생 O.T", grade:"all"},
   {date:"2026-03-10", title:"기초학력 진단검사", grade:"all"},
@@ -232,23 +194,28 @@ let currentFilter = 'all';
 let currentYear = 2026;
 let currentMonth = 2;
 
-// 시트 날짜 형식 자동 변환 (2026.11.31 → 2026-11-31)
 function normalizeDate(dateInput) {
   if (!dateInput) return '';
   let str = String(dateInput).trim();
   if (str.includes('GMT')) return new Date(str).toISOString().split('T')[0];
-  if (str.includes('.')) str = str.replace(/\./g, '-');   // 2026.11.31 → 2026-11-31
+  if (str.includes('.')) return str.replace(/\./g, '-');
   return str;
 }
 
-// 시트 컬럼 강력 매핑
 function parseSheetItem(item) {
-  return {
-    date: normalizeDate(item.마감일 || item.date),
-    title: item.제목 || item.title || '',
-    grade: item.grade || (item.연수 ? 'training' : 'all'),
-    manager: item.담당자 || item.manager || ''
-  };
+  let dateStr = normalizeDate(item.마감일 || item.date || '');
+  let titleStr = item.제목 || item.title || '';
+  let grade = item.grade || 'all';
+  let manager = item.담당자 || item.manager || '';
+
+  if (dateStr === '1970-01-01' || !dateStr) {
+    if (titleStr.includes('GMT') || titleStr.match(/^\d{4}\./)) {
+      dateStr = normalizeDate(titleStr);
+      titleStr = item.비고 || item.note || titleStr;
+    }
+  }
+
+  return { date: dateStr, title: titleStr, grade, manager };
 }
 
 window.addEventListener('DOMContentLoaded', () => loadData(false));
@@ -278,8 +245,6 @@ async function loadData(showMsg) {
     }
   } catch(e) {
     console.error(e);
-    renderCal();
-    renderDocs();
     if (showMsg) msg.textContent = '⚠ 시트 불러오기 실패';
   }
 }
@@ -332,42 +297,16 @@ function renderCal() {
 
 function renderDocs() {
   const docs = DL.filter(ev => ev.grade === 'all' || !ev.grade).sort((a,b) => new Date(a.date) - new Date(b.date));
-  const mapping = ev => `
-    <div class="list-item">
-      <div class="li-top">
-        <span class="li-title">${ev.title}</span>
-      </div>
-      <div class="li-date">${ev.date ? ev.date.slice(5).replace('-','월 ') + '일' : ''}　|　${ev.manager || ''}</div>
-    </div>`;
-
-  document.getElementById('doc-list').innerHTML = docs.length ? docs.map(mapping).join('') : '<p style="padding:20px;text-align:center;color:#64748b;font-size:14px">등록된 서류가 없습니다.</p>';
-}
-
-function renderTrain() {
   const trains = DL.filter(ev => ev.grade === 'training').sort((a,b) => new Date(a.date) - new Date(b.date));
-  const mapping = ev => `
-    <div class="list-item" style="border-left-color:#10b981">
-      <div class="li-top">
-        <span class="li-title">${ev.title}</span>
-      </div>
-      <div class="li-date">${ev.date ? ev.date.slice(5).replace('-','월 ') + '일' : ''}　|　${ev.manager || ''}</div>
-    </div>`;
 
-  document.getElementById('train-list').innerHTML = trains.length ? trains.map(mapping).join('') : '<p style="padding:20px;text-align:center;color:#64748b;font-size:14px">예정된 연수가 없습니다.</p>';
-}
-
-function renderDocs() {
-  const docs = DL.filter(ev => ev.grade === 'all' || !ev.grade).sort((a,b) => new Date(a.date) - new Date(b.date));
   const mapping = ev => `
     <div class="list-item">
-      <div class="li-top">
-        <span class="li-title">${ev.title}</span>
-      </div>
+      <div class="li-top"><span class="li-title">${ev.title}</span></div>
       <div class="li-date">${ev.date ? ev.date.slice(5).replace('-','월 ') + '일' : ''}　|　${ev.manager || ''}</div>
     </div>`;
 
   document.getElementById('doc-list').innerHTML = docs.length ? docs.map(mapping).join('') : '<p style="padding:20px;text-align:center;color:#64748b;font-size:14px">등록된 서류가 없습니다.</p>';
-  renderTrain();
+  document.getElementById('train-list').innerHTML = trains.length ? trains.map(mapping).join('') : '<p style="padding:20px;text-align:center;color:#64748b;font-size:14px">예정된 연수가 없습니다.</p>';
 }
 </script>
 </body>

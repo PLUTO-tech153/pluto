@@ -123,7 +123,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 
 <script>
 // ==================== PDF 기반 초기 데이터 ====================
-const BASE_DATA = [
+const BASE_DATA = [ /* 기존 BASE_DATA */ 
   {date:"2026-03-03", title:"입학식 / 개학식 / 신입생 O.T", grade:"all"},
   {date:"2026-03-10", title:"기초학력 진단검사", grade:"all"},
   {date:"2026-03-19", title:"1학년 수업공개 및 학부모교실", grade:"1"},
@@ -200,10 +200,10 @@ let currentFilter = 'all';
 let currentYear = 2026;
 let currentMonth = 2;
 
-// ==================== GAS JSON 완전 파싱 (이번에 진짜 해결) ====================
 function parseSheetItem(item) {
-  let dateStr = item.title || item.마감일 || '';
-  let titleStr = item.note || item.비고 || item.제목 || '';
+  // GAS가 보내는 정확한 구조에 맞춤
+  let dateStr = item.title || '';           // title = 날짜 (GMT 또는 2026.04.xx)
+  let titleStr = item.note || item.비고 || '';   // note = 실제 제목
   let managerStr = item.manager || item.담당자 || '';
 
   // 날짜 정규화

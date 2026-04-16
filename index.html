@@ -116,8 +116,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 </div>
 
 <script>
-// ==================== PDF 기반 초기 데이터 (BASE_DATA) ====================
-const BASE_DATA = [
+// ==================== PDF 기반 초기 데이터 ====================
+const BASE_DATA = [ /* 기존 BASE_DATA 전체 (생략하지 않고 그대로) */ 
   {date:"2026-03-03", title:"입학식 / 개학식 / 신입생 O.T", grade:"all"},
   {date:"2026-03-10", title:"기초학력 진단검사", grade:"all"},
   {date:"2026-03-19", title:"1학년 수업공개 및 학부모교실", grade:"1"},
@@ -194,31 +194,51 @@ let currentFilter = 'all';
 let currentYear = 2026;
 let currentMonth = 2;
 
-function normalizeDate(dateInput) {
-  if (!dateInput) return '';
-  let str = String(dateInput).trim();
-  if (str.includes('GMT')) return new Date(str).toISOString().split('T')[0];
-  if (str.includes('.')) return str.replace(/\./g, '-');
-  return str;
-}
-
+// ==================== GAS JSON 완전 보정 파서 (이번에 최종 강화) ====================
 function parseSheetItem(item) {
-  let dateStr = normalizeDate(item.마감일 || item.date || '');
-  let titleStr = item.제목 || item.title || '';
-  let grade = item.grade || 'all';
-  let manager = item.담당자 || item.manager || '';
+  let dateStr = '';
+  let titleStr = '';
+  let managerStr = item.manager || item.담당자 || '';
 
-  if (dateStr === '1970-01-01' || !dateStr) {
-    if (titleStr.includes('GMT') || titleStr.match(/^\d{4}\./)) {
-      dateStr = normalizeDate(titleStr);
-      titleStr = item.비고 || item.note || titleStr;
-    }
+  // 1. title 필드가 날짜 문자열(GMT or 2026.04.25)인 경우 → note가 실제 제목
+  if (item.title && (item.title.includes('GMT') || /^\d{4}/.test(item.title))) {
+    dateStr = item.title;                    // title에 실제 날짜가 들어있음
+    titleStr = item.note || item.비고 || ''; // note에 실제 제목이 들어있음
+  } 
+  // 2. 그 외의 경우 (일부 행)
+  else {
+    dateStr = item.date || item.마감일 || '';
+    titleStr = item.제목 || item.title || item.note || '';
   }
 
-  return { date: dateStr, title: titleStr, grade, manager };
+  // 안전장치: date가 이상하면 다시 정규화
+  if (!dateStr || dateStr === '1970-01-01') {
+    dateStr = item.title || item.note || '';
+  }
+
+  const grade = item.grade || 'all';
+
+  return {
+    date: dateStr.includes('GMT') || /^\d{4}/.test(dateStr) ? normalizeDate(dateStr) : dateStr,
+    title: titleStr,
+    grade: grade,
+    manager: managerStr
+  };
 }
 
-window.addEventListener('DOMContentLoaded', () => loadData(false));
+function normalizeDate(str) {
+  if (!str) return '';
+  let s = String(str).trim();
+  if (s.includes('GMT')) return new Date(s).toISOString().split('T')[0];
+  return s.replace(/\./g, '-');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const today = new Date();
+  currentYear = today.getFullYear();
+  currentMonth = today.getMonth();
+  loadData(false);
+});
 
 function setFilter(f, btn) {
   currentFilter = f;
@@ -284,14 +304,10 @@ function renderCal() {
     html += `<div class="cal-cell ${dayClass} ${isToday}">
       <span class="date-num">${d}</span>
       <div class="events-wrap">
-        ${dayEvents.map(ev => {
-          const fullText = ev.title;
-          return `<div class="event-item ev-${ev.grade || 'all'}" title="${fullText}">${fullText}</div>`;
-        }).join('')}
+        ${dayEvents.map(ev => `<div class="event-item ev-${ev.grade || 'all'}" title="${ev.title}">${ev.title}</div>`).join('')}
       </div>
     </div>`;
   }
-
   container.innerHTML = html;
 }
 

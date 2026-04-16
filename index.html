@@ -15,16 +15,17 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 .logo-wrap img{width:100%;height:100%;object-fit:contain}
 .hdr-text h1{color:#fff;font-size:20px;font-weight:700}
 
-/* ★ 화면 꽉 차게 만드는 레이아웃 핵심 설정 */
+/* 화면 꽉 차게 만드는 레이아웃 */
 .container{max-width:1400px;margin:15px auto;padding:0 20px;display:grid;grid-template-columns:1fr 340px;gap:20px; align-items: stretch;}
 .main-content{display:flex; flex-direction:column; min-height: calc(100vh - 100px);}
 .side-content{display:flex; flex-direction:column;}
 
-/* 바로가기 */
-.quick-links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
-.ln-btn{display:flex;align-items:center;justify-content:center;padding:12px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;color:#fff;transition:0.2s}
+/* 바로가기 버튼 (3개로 확장) */
+.quick-links{display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin-bottom:15px}
+.ln-btn{display:flex;align-items:center;justify-content:center;padding:10px 5px;border-radius:8px;text-decoration:none;font-weight:700;font-size:12px;color:#fff;transition:0.2s;text-align:center}
 .ln-neis{background:#3182ce}.ln-neis:hover{background:#2b6cb0}
 .ln-ep{background:#4a5568}.ln-ep:hover{background:#2d3748}
+.ln-sheet{background:#38a169}.ln-sheet:hover{background:#2f855a} /* 시트 버튼 초록색 */
 
 /* 카드 영역 */
 .card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);padding:18px;margin-bottom:15px}
@@ -33,10 +34,10 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 .card-title{font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px;color:#2d3748}
 .card-title::before{content:'';display:inline-block;width:4px;height:18px;background:#3182ce;border-radius:2px}
 
-/* ★ 화면 높이에 맞춰 늘어나는 달력 그리드 */
+/* 화면 높이에 맞춰 늘어나는 달력 그리드 */
 .cal-grid{display:flex; flex-direction:column; background:#cbd5e0; border:1px solid #cbd5e0; flex:1; border-radius:4px; overflow:hidden;}
 .cal-row{display:grid; grid-template-columns:repeat(7,1fr); gap:1px;}
-.cal-row.weeks{flex:1;} /* 이 부분이 남은 공간을 꽉 채워줍니다 */
+.cal-row.weeks{flex:1;} 
 .cal-day-label{background:#edf2f7;font-size:13px;font-weight:700;padding:10px 0;text-align:center;color:#4a5568}
 .cal-cell{background:#fff;padding:8px;font-size:13px;position:relative; display:flex; flex-direction:column;}
 .cal-cell.sun{color:#e53e3e;background:#fffafb}.cal-cell.sat{color:#3182ce;background:#f7faff}
@@ -70,7 +71,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 .li-date{font-size:11px;color:#e53e3e;font-weight:700;white-space:nowrap;margin-left:10px}
 .li-etc{font-size:11px;color:#718096;margin-top:6px}
 
-/* 필터 탭 (달력 위로 이동) */
+/* 필터 탭 (달력 전용) */
 .filter-tabs{display:flex;gap:6px;overflow-x:auto;}
 .ft-btn{padding:6px 14px;border:1px solid #e2e8f0;background:#fff;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;color:#4a5568;transition:0.2s;white-space:nowrap}
 .ft-btn:hover{background:#edf2f7}
@@ -82,7 +83,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 .settings-panel{position:absolute;bottom:45px;right:0;width:260px;background:#fff;border-radius:12px;padding:15px;box-shadow:0 5px 20px rgba(0,0,0,0.2);display:none}
 .settings-panel.active{display:block}
 
-@media(max-width:950px){ .container{grid-template-columns:1fr} .main-content{min-height:auto} }
+@media(max-width:950px){ .container{grid-template-columns:1fr} .main-content{min-height:auto} .quick-links{grid-template-columns: 1fr 1fr 1fr} }
 </style>
 </head>
 <body>
@@ -113,8 +114,9 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 
   <div class="side-content">
     <div class="quick-links">
-      <a href="https://gbe.eduptl.kr/bpm_lgn_lg00_001.do" target="_blank" class="ln-btn ln-neis">나이스 바로가기</a>
-      <a href="http://swpsso.posco.net/idms/U61/jsp/login/login.jsp" target="_blank" class="ln-btn ln-ep">EP 바로가기</a>
+      <a href="https://gbe.eduptl.kr/bpm_lgn_lg00_001.do" target="_blank" class="ln-btn ln-neis">나이스</a>
+      <a href="http://swpsso.posco.net/idms/U61/jsp/login/login.jsp" target="_blank" class="ln-btn ln-ep">EP</a>
+      <a href="https://docs.google.com/spreadsheets/d/11liSSsybAtr2fIKQi6B6lBEQEIRaGVj5qQ-L3HmWq9k/edit" target="_blank" class="ln-btn ln-sheet">관리시트</a>
     </div>
 
     <div class="card" style="flex: 1; overflow-y: auto;">
@@ -140,7 +142,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#1a1a2e;line
 </div>
 
 <script>
-// PDF 일정 (달력 배경용)
 const BASE_DATA = [
   {date:"2026-03-02", title:"입학식 및 개학식", grade:"all", isBase:true},
   {date:"2026-04-02", title:"대체 공휴일", grade:"all", isBase:true},
@@ -152,21 +153,21 @@ const BASE_DATA = [
   {date:"2026-05-05", title:"어린이날", grade:"all", isBase:true}
 ];
 
-const MY_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby31Be0-N2-ut72LWmK3HnJQbjaBJsNt7vYb_XAg3SvmJKBVfYcZrwbf_uv5MqcTBE/exec";
+// ★ 알려주신 최신 앱스 스크립트 URL 반영
+const MY_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwP6EQY_ONpeJrqiEgLo5hFszIRy4QnrD9OR4k0yuusfxvJApY-RSxFWw9kwjQId9er/exec";
 let DL = [...BASE_DATA];
-let currentFilter = 'all-view'; // 기본값: 전체보기
+let currentFilter = 'all-view';
 
 window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('api-url').value = MY_SCRIPT_URL;
   loadData(false);
 });
 
-// 달력 카테고리 필터
 function setFilter(f, btn) {
   currentFilter = f;
   document.querySelectorAll('.ft-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  renderCal(); // 이제 리스트가 아니라 '달력'을 새로고침합니다
+  renderCal();
 }
 
 async function loadData(showMsg) {
@@ -194,7 +195,6 @@ function renderCal() {
   const lastDate = new Date(year, month + 1, 0).getDate();
   const todayStr = `${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,'0')}-${String(new Date().getDate()).padStart(2,'0')}`;
 
-  // 상단 요일 라벨
   let html = '<div class="cal-row labels">';
   ['일','월','화','수','목','금','토'].forEach(d => html += `<div class="cal-day-label">${d}</div>`);
   html += '</div>';
@@ -212,7 +212,6 @@ function renderCal() {
     const isToday = (dateStr === todayStr) ? 'today' : ''; 
     const dayClass = new Date(year, month, d).getDay() === 0 ? 'sun' : (new Date(year, month, d).getDay() === 6 ? 'sat' : '');
     
-    // 달력 필터 적용 (선택한 학년만 보이게)
     let dayEvents = DL.filter(ev => ev.date === dateStr);
     if(currentFilter !== 'all-view') {
       dayEvents = dayEvents.filter(ev => ev.grade === currentFilter);
@@ -246,14 +245,11 @@ function renderCal() {
     currentWeekHtml += '</div>';
     html += currentWeekHtml;
   }
-
   container.innerHTML = html;
 }
 
 function renderDocs() {
   const listItems = DL.filter(ev => !ev.isBase);
-  
-  // ★ 서류 마감 목록: 무조건 구글 시트의 '전학년(all)' 내용만 보이게 고정!
   const docs = listItems.filter(ev => ev.grade === 'all').sort((a,b)=>new Date(a.date)-new Date(b.date));
   const trains = listItems.filter(ev => ev.grade === 'training').sort((a,b)=>new Date(a.date)-new Date(b.date));
   

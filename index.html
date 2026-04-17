@@ -28,7 +28,7 @@ body { font-family:'Noto Sans KR',sans-serif; background:#0f172a; color:#1e293b;
   border-bottom:1px solid rgba(255,255,255,.08);
 }
 .hdr-left { display:flex; align-items:center; gap:10px; }
-.logo-wrap { width:38px; height:38px; background:#fff; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 0 0 3px #fff, 0 0 0 5px rgba(255,255,255,0.3); }
+.logo-wrap { width:38px; height:38px; background:#ffffff !important; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 0 0 3px #ffffff, 0 0 0 5px rgba(255,255,255,0.5); border:2px solid #ffffff; }
 .logo-wrap img { width:100%; height:100%; object-fit:contain; }
 .hdr h1 { color:#fff; font-size:16px; font-weight:700; white-space:nowrap; }
 .hdr-date { color:rgba(255,255,255,.6); font-size:13px; white-space:nowrap; }
@@ -527,12 +527,14 @@ async function loadData(show=false){
   const url=document.getElementById('api-url').value.trim();
   const msg=document.getElementById('cfg-msg');
   if(!url){
-    if(show){msg.className='cfg-msg er';msg.textContent='URL을 입력해 주세요.';}
-    return;
+    // URL이 없으면 기본 URL 사용 (사생활모드/다른 컴퓨터 대응)
+    const fallback=typeof DEFAULT_GAS_URL!=='undefined'?DEFAULT_GAS_URL:'';
+    if(!fallback){if(show){msg.className='cfg-msg er';msg.textContent='URL을 입력해 주세요.';}return;}
+    document.getElementById('api-url').value=fallback;
   }
   localStorage.setItem(SAVED_KEY,url);
   try{
-    const r=await fetch(url+'?t='+Date.now(),{cache:'no-store'});
+    const r=await fetch(url+'?t='+Date.now(),{cache:'no-store',mode:'cors',credentials:'omit'});
     if(!r.ok) throw new Error('HTTP '+r.status);
     const raw=await r.json();
     const arr=Array.isArray(raw)?raw:(raw.data??raw.rows??raw.items??[]);
@@ -557,7 +559,8 @@ function chM(d){ CM+=d; if(CM>11){CM=0;CY++;} if(CM<0){CM=11;CY--;} renderCal();
 function goToday(){ CY=TODAY.getFullYear(); CM=TODAY.getMonth(); renderCal(); }
 
 /* ── 초기화 ── */
-const savedUrl=localStorage.getItem(SAVED_KEY)||'https://script.google.com/macros/s/AKfycbzYJMojYpupRAkBsGOXZWsHkEmX5aj4EUFbBRzN_ikU87RrE9TX1BvA88FWta5CBzal/exec';
+const DEFAULT_GAS_URL='https://script.google.com/macros/s/AKfycbzYJMojYpupRAkBsGOXZWsHkEmX5aj4EUFbBRzN_ikU87RrE9TX1BvA88FWta5CBzal/exec';
+const savedUrl=localStorage.getItem(SAVED_KEY)||DEFAULT_GAS_URL;
 document.getElementById('api-url').value=savedUrl;
 renderCal();
 loadData(false);

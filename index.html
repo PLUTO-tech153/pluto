@@ -28,7 +28,7 @@ body { font-family:'Noto Sans KR',sans-serif; background:#0f172a; color:#1e293b;
   border-bottom:1px solid rgba(255,255,255,.08);
 }
 .hdr-left { display:flex; align-items:center; gap:10px; }
-.logo-wrap { width:38px; height:38px; background:#fff; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.logo-wrap { width:38px; height:38px; background:#fff; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 0 0 3px #fff, 0 0 0 5px rgba(255,255,255,0.3); }
 .logo-wrap img { width:100%; height:100%; object-fit:contain; }
 .hdr h1 { color:#fff; font-size:16px; font-weight:700; white-space:nowrap; }
 .hdr-date { color:rgba(255,255,255,.6); font-size:13px; white-space:nowrap; }
@@ -101,6 +101,12 @@ body { font-family:'Noto Sans KR',sans-serif; background:#0f172a; color:#1e293b;
   transition:all .13s; box-shadow:0 1px 3px rgba(0,0,0,.07);
 }
 .gt:hover { opacity:.85; }
+/* 비활성 탭: 컬러 테두리 + 컬러 글자 */
+.gt[data-g="all"]  { border-color:var(--c-all); color:var(--c-all); }
+.gt[data-g="1"]    { border-color:var(--c-1);   color:var(--c-1);   }
+.gt[data-g="2"]    { border-color:var(--c-2);   color:var(--c-2);   }
+.gt[data-g="3"]    { border-color:var(--c-3);   color:var(--c-3);   }
+/* 활성 탭: 배경 채우기 + 흰 글자 */
 .gt[data-g="all"].on  { background:var(--c-all); color:#fff; border-color:var(--c-all); }
 .gt[data-g="1"].on    { background:var(--c-1);   color:#fff; border-color:var(--c-1);   }
 .gt[data-g="2"].on    { background:var(--c-2);   color:#fff; border-color:var(--c-2);   }
@@ -486,8 +492,19 @@ function normalDate(v){
     return `${m[1]}-${p2(m[2])}-${p2(m[3])}`;
   }
 
-  m = s.match(/^(\d{4})-(\d{2})-(\d{2})T/);
+  m = s.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
   if(m){
+    // UTC 시간에 KST(+9) 보정
+    const utcH = parseInt(m[4]);
+    const day = parseInt(m[3]);
+    const month = parseInt(m[2]);
+    const year = parseInt(m[1]);
+    const kstH = utcH + 9;
+    if(kstH >= 24){
+      // 날짜 넘어감 보정
+      const d = new Date(year, month-1, day+1);
+      return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;
+    }
     return `${m[1]}-${m[2]}-${m[3]}`;
   }
 
@@ -523,9 +540,15 @@ async function loadData(show=false){
     renderCal(); renderSide();
     if(show){msg.className='cfg-msg ok';msg.textContent=`✓ ${DL.length}건 불러옴`;setTimeout(()=>msg.textContent='',2500);}
   }catch(e){
-    DL=[];renderCal();renderSide();
+    // 실패해도 기존 데이터(DL) 유지 - 다른 선생님 컴퓨터에서도 보이도록
+    renderCal();renderSide();
     if(show){msg.className='cfg-msg er';msg.textContent='⚠ 불러오기 실패: '+e.message;}
     console.error(e);
+    // 첫 로드 실패 시 자동 재시도 (5초, 15초 후)
+    if(!show){
+      setTimeout(()=>loadData(false), 5000);
+      setTimeout(()=>loadData(false), 15000);
+    }
   }
 }
 

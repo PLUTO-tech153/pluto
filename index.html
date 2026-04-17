@@ -504,7 +504,7 @@ function parseItem(raw){
   const type=String(raw.type??'deadline').trim();
   return {title,date,manager,note,grade:['all','1','2','3'].includes(grade)?grade:'all',type};
 }
-const DEFAULT_GAS_URL='https://script.google.com/macros/s/AKfycbz9rhO0AtNR8nsjeBukhKXKsHiAWpq1EmEQm50ERHnx77bcIoeO34m_rPU_-WQyY3d-/exec';
+const DEFAULT_GAS_URL='https://script.google.com/macros/s/AKfycbxaJ0lWl9h32pmapHtbS2_DzLQanEif7jLTxV05DT8NiPCEiiSi7HGyndoMLhWHkqfD/exec';
 async function loadData(show=false){
   const inputUrl=document.getElementById('api-url').value.trim();
   const url=inputUrl||localStorage.getItem('pohang_api_url')||DEFAULT_GAS_URL;

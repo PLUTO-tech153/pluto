@@ -344,13 +344,20 @@ body { font-family:'Noto Sans KR',sans-serif; background:#0f172a; color:#1e293b;
 <button class="cfg-btn" onclick="document.querySelector('.cfg-panel').classList.toggle('open')">⚙</button>
 <div class="cfg-panel" id="cfg-panel">
   <h4>⚙ 구글 시트 연동 설정</h4>
-  <input class="cfg-input" id="api-url" type="text" placeholder="Apps Script 웹 앱 URL">
-  <button class="cfg-refresh" onclick="loadData(true)">🔄 새로고침</button>
+  <input class="cfg-input" id="api-url" type="text" placeholder="Apps Script 웹 앱 URL 입력">
+  <div style="display:flex;gap:6px;margin-top:8px">
+    <button class="cfg-refresh" style="flex:1" onclick="loadData(true)">🔄 새로고침</button>
+    <button class="cfg-refresh" style="flex:1;background:#059669" onclick="testUrl()">🔍 연결 테스트</button>
+  </div>
   <div class="cfg-msg" id="cfg-msg"></div>
-  <div style="margin-top:12px;font-size:11px;color:#94a3b8;line-height:1.7">
+  <div id="cfg-debug" style="margin-top:6px;font-size:11px;color:#94a3b8;word-break:break-all"></div>
+  <div style="margin-top:10px;font-size:11px;color:#94a3b8;line-height:1.7">
+    ⚠ 다른 선생님 화면에 안 보이면<br>
+    Apps Script를 <b>새로 배포</b>하세요.<br>
+    액세스: <b>조직 내 모든 사용자</b><br><br>
     시트 탭: <b>전학년 / 1학년 / 2학년 / 3학년 / 연수</b><br>
-    A: 제목 &nbsp;|&nbsp; B: 마감일 (YYYY-MM-DD)<br>
-    C: 담당자 &nbsp;|&nbsp; D: 비고
+    A: 제목 | B: 마감일(YYYY-MM-DD)<br>
+    C: 담당자 | D: 비고
   </div>
 </div>
 
@@ -505,6 +512,42 @@ function parseItem(raw){
   return {title,date,manager,note,grade:['all','1','2','3'].includes(grade)?grade:'all',type};
 }
 const DEFAULT_GAS_URL='https://script.google.com/macros/s/AKfycbxaJ0lWl9h32pmapHtbS2_DzLQanEif7jLTxV05DT8NiPCEiiSi7HGyndoMLhWHkqfD/exec';
+
+/* ── URL 연결 테스트 ── */
+async function testUrl(){
+  const url = document.getElementById('api-url').value.trim();
+  const dbg = document.getElementById('cfg-debug');
+  const msg = document.getElementById('cfg-msg');
+  if(!url){msg.className='cfg-msg er';msg.textContent='URL 없음';return;}
+  msg.className='cfg-msg ok';msg.textContent='테스트 중...';
+  dbg.textContent='';
+  try{
+    const r = await fetch(url+'?test='+Date.now(),{cache:'no-store'});
+    const text = await r.text();
+    let parsed;
+    try{ parsed=JSON.parse(text); }catch{ parsed=null; }
+    if(Array.isArray(parsed)){
+      const grades = {};
+      parsed.forEach(i=>{ grades[i.grade]=(grades[i.grade]||0)+1; });
+      msg.className='cfg-msg ok';
+      msg.textContent='✓ 연결 성공 '+parsed.length+'건';
+      dbg.textContent='학년별: '+JSON.stringify(grades);
+    } else if(parsed && parsed.error){
+      msg.className='cfg-msg er';
+      msg.textContent='오류: '+parsed.error;
+      dbg.textContent=text.slice(0,200);
+    } else {
+      msg.className='cfg-msg er';
+      msg.textContent='⚠ 응답 형식 오류';
+      dbg.textContent=text.slice(0,200);
+    }
+  }catch(e){
+    msg.className='cfg-msg er';
+    msg.textContent='⚠ 연결 실패: '+e.message;
+    dbg.textContent='CORS 오류이거나 URL이 잘못됨';
+  }
+}
+
 async function loadData(show=false){
   const inputUrl=document.getElementById('api-url').value.trim();
   const url=inputUrl||localStorage.getItem('pohang_api_url')||DEFAULT_GAS_URL;
@@ -523,15 +566,13 @@ async function loadData(show=false){
     renderCal(); renderSide();
     if(show){msg.className='cfg-msg ok';msg.textContent=`✓ ${DL.length}건 불러옴`;setTimeout(()=>msg.textContent='',2500);}
   }catch(e){
-    // 실패해도 기존 데이터(DL) 유지 - 다른 선생님 컴퓨터에서도 보이도록
+    DL=[];
     renderCal();renderSide();
-    if(show){msg.className='cfg-msg er';msg.textContent='⚠ 불러오기 실패: '+e.message;}
-    console.error(e);
-    // 첫 로드 실패 시 자동 재시도 (5초, 15초 후)
-    if(!show){
-      setTimeout(()=>loadData(false), 5000);
-      setTimeout(()=>loadData(false), 15000);
+    if(show){
+      msg.className='cfg-msg er';
+      msg.textContent='⚠ 실패: '+e.message+' — 새 URL로 재배포 필요';
     }
+    console.error('loadData 오류:', e);
   }
 }
 

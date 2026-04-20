@@ -344,7 +344,7 @@ body { font-family:'Noto Sans KR',sans-serif; background:#0f172a; color:#1e293b;
 <button class="cfg-btn" onclick="document.querySelector('.cfg-panel').classList.toggle('open')">⚙</button>
 <div class="cfg-panel" id="cfg-panel">
   <h4>⚙ 구글 시트 연동 설정</h4>
-  <input class="cfg-input" id="api-url" type="text" placeholder="Apps Script 웹 앱 URL 입력">
+  <input class="cfg-input" id="api-url" type="text" placeholder="Apps Script 웹 앱 URL 입력" value="https://script.google.com/macros/s/AKfycbz-e2N_noZeo2a8OyWbjqkGqAj62mziNU9J30cHvt1UQXguYgfQPfJ9IEaK_FGflwQtzw/exec">
   <div style="display:flex;gap:6px;margin-top:8px">
     <button class="cfg-refresh" style="flex:1" onclick="loadData(true)">🔄 새로고침</button>
     <button class="cfg-refresh" style="flex:1;background:#059669" onclick="testUrl()">🔍 연결 테스트</button>
@@ -511,7 +511,7 @@ function parseItem(raw){
   const type=String(raw.type??'deadline').trim();
   return {title,date,manager,note,grade:['all','1','2','3'].includes(grade)?grade:'all',type};
 }
-const DEFAULT_GAS_URL='https://script.google.com/macros/s/AKfycbxaJ0lWl9h32pmapHtbS2_DzLQanEif7jLTxV05DT8NiPCEiiSi7HGyndoMLhWHkqfD/exec';
+const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbz-e2N_noZeo2a8OyWbjqkGqAj62mziNU9J30cHvt1UQXguYgfQPfJ9IEaK_FGflwQtzw/exec';
 
 /* ── URL 연결 테스트 ── */
 async function testUrl(){
@@ -582,7 +582,8 @@ function goToday(){ CY=TODAY.getFullYear(); CM=TODAY.getMonth(); renderCal(); }
 
 /* ── 초기화 ── */
 // 다른 사람도 항상 기본 URL로 데이터 로드
-const savedUrl = localStorage.getItem(SAVED_KEY) || DEFAULT_GAS_URL;
+const savedUrl = DEFAULT_GAS_URL; // 항상 최신 URL 사용
+localStorage.setItem(SAVED_KEY, DEFAULT_GAS_URL);
 document.getElementById('api-url').value = savedUrl || DEFAULT_GAS_URL;
 if (!document.getElementById('api-url').value.trim()) {
   document.getElementById('api-url').value = DEFAULT_GAS_URL;

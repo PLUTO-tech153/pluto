@@ -265,6 +265,126 @@ body { font-family:'Noto Sans KR',sans-serif; background:#0f172a; color:#1e293b;
 }
 .leg { display:flex; align-items:center; gap:4px; font-size:10px; color:#64748b; }
 .ld { width:8px; height:8px; border-radius:2px; }
+
+/* ═══════════════════════════════════════════
+   모바일 전용 레이아웃 (768px 이하)
+   데스크탑 동작에 전혀 영향 없음
+═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* 스크롤 가능하게 전환 */
+  html, body {
+    height: auto !important;
+    overflow: auto !important;
+    overflow-x: hidden;
+  }
+
+  /* 헤더 */
+  .hdr {
+    padding: 10px 14px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .hdr h1 { font-size: 14px; }
+  .hdr-date { font-size: 11px; }
+
+  /* 바로가기 바 */
+  .sc-bar {
+    padding: 6px 12px;
+    flex-wrap: wrap;
+    gap: 6px;
+    height: auto;
+  }
+  .sc-a { padding: 5px 10px; font-size: 12px; }
+
+  /* 전체 바디 — 세로 스크롤로 전환 */
+  .body-wrap {
+    grid-template-columns: 1fr !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  /* 달력 패널 */
+  .cal-panel {
+    padding: 10px 8px 8px;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  /* 상단 네비 */
+  .cal-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .cal-month-title { font-size: 18px; }
+  .grade-tabs { flex-wrap: wrap; gap: 5px; }
+  .gt { padding: 5px 12px; font-size: 12px; }
+
+  /* 달력 그리드 — 고정 높이로 전환 (핵심 수정) */
+  .cal-grid-wrap {
+    overflow: visible !important;
+    min-height: auto !important;
+    flex: none !important;
+    height: auto !important;
+  }
+  .cal-days {
+    grid-auto-rows: 80px !important;   /* 셀 높이 고정 — 겹침 방지 */
+    overflow: visible !important;
+    height: auto !important;
+  }
+  .cal-cell {
+    min-height: 80px !important;
+    overflow: hidden !important;
+    padding: 3px 2px !important;
+  }
+
+  /* 날짜 숫자 */
+  .dn {
+    font-size: 11px !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin-bottom: 2px !important;
+  }
+
+  /* 이벤트 태그 */
+  .ev {
+    font-size: 9px !important;
+    padding: 1px 3px !important;
+    margin-bottom: 1px !important;
+  }
+
+  /* 요일 헤더 */
+  .dow { padding: 6px 0; font-size: 11px; }
+
+  /* 범례 */
+  .legend {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 10px;
+  }
+  .leg { font-size: 10px; }
+
+  /* 사이드 패널 — 달력 아래에 표시 */
+  .side {
+    display: block !important;
+    border-left: none !important;
+    border-top: 1px solid #e2e8f0;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .side-inner {
+    overflow: visible !important;
+    height: auto !important;
+    padding: 12px;
+  }
+
+  /* 설정 버튼 */
+  .cfg-btn { bottom: 12px; right: 12px; width: 40px; height: 40px; font-size: 18px; }
+  .cfg-panel { width: 260px; right: 12px; bottom: 58px; }
+}
+
 </style>
 </head>
 <body>
